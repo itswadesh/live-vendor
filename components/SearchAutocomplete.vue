@@ -20,16 +20,15 @@
         style="z-index:9999"
         class="w-full overflow-auto border-gray-400 rounded shadow"
       >
-        <nuxt-link
+        <div
           :class="{ 'bg-gray-300': selectedIndex == i }"
           v-for="(v, i) in products"
           :key="i"
-          :to="`${v._source.slug}?id=${v._id}`"
           @click="onselect(v)"
           class="flex items-center w-full text-black border-b border-gray-600 cursor-pointer hover:bg-gray-300"
         >
           {{ v._source.name }}
-        </nuxt-link>
+        </div>
       </div>
     </div>
   </div>
@@ -51,10 +50,12 @@ export default {
       onSubmit(){
         this.$router.push(`${this.product._source.slug}?id=${this.product._id}`)  
       },
-      onselect(val){
+     async onselect(val){
           // console.log(val)
+          await this.onUnfocused()
           this.product=val
           this.selectedVal=this.product._source.name
+          this.$router.push(`/${this.product._source.slug}?id=${this.product._id}`)
           // console.log(this.selectedVal)
       },
     async onSelectValue(e) {
@@ -101,6 +102,8 @@ export default {
     onUnfocused() {
       this.isFocused = false;
       this.selectedIndex = -1;
+      console.log(this.isFocused,this.selectedIndex)
+      return
     }
   }
 };
