@@ -74,13 +74,13 @@ export default {
         this.$router.push(`${this.product._source.slug}?id=${this.product._id}`)  
       },
       onselect(val){
-          console.log(val)
+          // console.log(val)
           this.product=val
           this.selectedVal=this.product._source.name
-          console.log(this.selectedVal)
+          // console.log(this.selectedVal)
       },
     async onSelectValue(e) {
-      console.log(e);
+      // console.log(e);
       if (this.isFocused) {
         if (e.key == "ArrowDown") {
           if (this.selectedIndex < this.values.length) {
@@ -117,7 +117,7 @@ export default {
                 params: { q: this.selectedVal }
               }
             );
-            console.log(result)
+            // console.log(result)
             this.products = result.data;
           } catch (e) {
           } finally {
@@ -128,7 +128,7 @@ export default {
       this.getData()
     },
     onUnfocused() {
-      console.log("naman khurana")
+      // console.log("naman khurana")
       this.isFocused = false;
       this.selectedIndex = -1;
     }

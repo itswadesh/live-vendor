@@ -16,7 +16,9 @@ export default {
   },
   loading: { color: "#fff" },
   css: [],
-  plugins: [],
+  plugins: [
+    { src: '~/plugins/directives.js', ssr:false },
+  ],
   buildModules: ["@nuxtjs/axios", "@nuxtjs/tailwindcss"],
   modules: ["@nuxtjs/pwa", "@nuxtjs/dotenv"],
   axios: {

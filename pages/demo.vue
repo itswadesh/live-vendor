@@ -1,6 +1,6 @@
 <template>
 <div class="full">
-  <SearchDropdown />
+  <SearchAutocomplete />
       <!-- <div class="top-0 bottom-0 left-0 right-0 z-10 w-screen h-screen" @click="onUnfocused()"></div>
     <div @click="onUnfocused" class="absolute top-0 bottom-0 left-0 right-0 w-screen h-screen"></div>
  
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-  import SearchDropdown from "../components/SearchDropdown";
+  import SearchAutocomplete from "../components/SearchAutocomplete";
 
 export default {
   data() {
@@ -73,7 +73,7 @@ export default {
     };
   },
   components:{
-    SearchDropdown
+    SearchAutocomplete
   },
   methods: {
     //   onSubmit(){
