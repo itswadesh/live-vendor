@@ -21,7 +21,6 @@
         class="w-full overflow-auto border-gray-400 rounded shadow"
       >
         <nuxt-link
-        
           :class="{ 'bg-gray-300': selectedIndex == i }"
           v-for="(v, i) in products"
           :key="i"
@@ -46,27 +45,6 @@ export default {
       isFocused: false,
       product:null,
       selectedIndex: -1,
-      values: [
-        "val-1",
-        "val-2",
-        "val-3",
-        "val-4",
-        "val-5",
-        "val-6",
-        "val-7"
-        // 'val-8',
-        // 'val-9',
-        // 'val-10',
-        // 'val-11',
-        // 'val-12',
-        // 'val-13',
-        // 'val-14',
-        // 'val-15',
-        // 'val-16',
-        // 'val-17',
-        // 'val-18',
-        // 'val-19',
-      ]
     };
   },
   methods: {
@@ -83,27 +61,21 @@ export default {
       // console.log(e);
       if (this.isFocused) {
         if (e.key == "ArrowDown") {
-          if (this.selectedIndex < this.values.length) {
+          if (this.selectedIndex < this.products.length) {
             this.selectedIndex++;
             this.onselect(this.products[this.selectedIndex])
-            // this.selectedVal = this.values[this.selectedIndex];
           } else {
             this.selectedIndex = 0;
           }
         } else if (e.key == "ArrowUp") {
           if (this.selectedIndex >= 0) {
             this.selectedIndex--;
-            this.onselect(this.values[this.selectedIndex])
+            this.onselect(this.products[this.selectedIndex])
 
-            // this.selectedVal = this.values[this.selectedIndex];
           }
         } else if (e.key == "Escape") {
           this.isFocused = false;
           this.selectedIndex = -1;
-          //             if(this.selectedIndex>=0){
-          //     this.selectedIndex--
-          //     this.selectedVal=this.values[this.selectedIndex]
-          // }
         } else {
        
         }
@@ -117,7 +89,6 @@ export default {
                 params: { q: this.selectedVal }
               }
             );
-            // console.log(result)
             this.products = result.data;
           } catch (e) {
           } finally {
@@ -128,7 +99,6 @@ export default {
       this.getData()
     },
     onUnfocused() {
-      // console.log("naman khurana")
       this.isFocused = false;
       this.selectedIndex = -1;
     }
