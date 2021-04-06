@@ -1,8 +1,6 @@
 <template>
 <div class="full">
-      <!-- <div class="top-0 bottom-0 left-0 right-0 z-10 w-screen h-screen" @click="onUnfocused()"></div> -->
-    <div @click="onUnfocused" class="absolute top-0 bottom-0 left-0 right-0 w-screen h-screen"></div>
- 
+    <div @click="onUnfocused" class="fixed inset-0 bg-gray-500"></div>
   <div class="z-50 flex flex-col justify-center">
     <div class="relative flex flex-wrap w-1/4">
     <form @submit.prevent="onSubmit">
