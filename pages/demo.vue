@@ -1,6 +1,7 @@
 <template>
 <div class="full">
-      <!-- <div class="top-0 bottom-0 left-0 right-0 z-10 w-screen h-screen" @click="onUnfocused()"></div> -->
+  <SearchDropdown />
+      <!-- <div class="top-0 bottom-0 left-0 right-0 z-10 w-screen h-screen" @click="onUnfocused()"></div>
     <div @click="onUnfocused" class="absolute top-0 bottom-0 left-0 right-0 w-screen h-screen"></div>
  
   <div class="z-50 flex flex-col justify-center">
@@ -33,105 +34,110 @@
         </nuxt-link>
       </div>
     </div>
-  </div>
+  </div> -->
 </div>
 </template>
 
 <script>
+  import SearchDropdown from "../components/SearchDropdown";
+
 export default {
   data() {
     return {
-      products: null,
-      selectedVal: null,
-      isFocused: false,
-      product:null,
-      selectedIndex: -1,
-      values: [
-        "val-1",
-        "val-2",
-        "val-3",
-        "val-4",
-        "val-5",
-        "val-6",
-        "val-7"
-        // 'val-8',
-        // 'val-9',
-        // 'val-10',
-        // 'val-11',
-        // 'val-12',
-        // 'val-13',
-        // 'val-14',
-        // 'val-15',
-        // 'val-16',
-        // 'val-17',
-        // 'val-18',
-        // 'val-19',
-      ]
+      // products: null,
+      // selectedVal: null,
+      // isFocused: false,
+      // product:null,
+      // selectedIndex: -1,
+      // values: [
+      //   "val-1",
+      //   "val-2",
+      //   "val-3",
+      //   "val-4",
+      //   "val-5",
+      //   "val-6",
+      //   "val-7"
+      //   // 'val-8',
+      //   // 'val-9',
+      //   // 'val-10',
+      //   // 'val-11',
+      //   // 'val-12',
+      //   // 'val-13',
+      //   // 'val-14',
+      //   // 'val-15',
+      //   // 'val-16',
+      //   // 'val-17',
+      //   // 'val-18',
+      //   // 'val-19',
+      // ]
     };
   },
+  components:{
+    SearchDropdown
+  },
   methods: {
-      onSubmit(){
-        this.$router.push(`${this.product._source.slug}?id=${this.product._id}`)  
-      },
-      onselect(val){
-          console.log(val)
-          this.product=val
-          this.selectedVal=this.product._source.name
-          console.log(this.selectedVal)
-      },
-    async onSelectValue(e) {
-      console.log(e);
-      if (this.isFocused) {
-        if (e.key == "ArrowDown") {
-          if (this.selectedIndex < this.values.length) {
-            this.selectedIndex++;
-            this.onselect(this.products[this.selectedIndex])
-            // this.selectedVal = this.values[this.selectedIndex];
-          } else {
-            this.selectedIndex = 0;
-          }
-        } else if (e.key == "ArrowUp") {
-          if (this.selectedIndex >= 0) {
-            this.selectedIndex--;
-            this.onselect(this.values[this.selectedIndex])
+    //   onSubmit(){
+    //     this.$router.push(`${this.product._source.slug}?id=${this.product._id}`)  
+    //   },
+    //   onselect(val){
+    //       console.log(val)
+    //       this.product=val
+    //       this.selectedVal=this.product._source.name
+    //       console.log(this.selectedVal)
+    //   },
+    // async onSelectValue(e) {
+    //   console.log(e);
+    //   if (this.isFocused) {
+    //     if (e.key == "ArrowDown") {
+    //       if (this.selectedIndex < this.values.length) {
+    //         this.selectedIndex++;
+    //         this.onselect(this.products[this.selectedIndex])
+    //         // this.selectedVal = this.values[this.selectedIndex];
+    //       } else {
+    //         this.selectedIndex = 0;
+    //       }
+    //     } else if (e.key == "ArrowUp") {
+    //       if (this.selectedIndex >= 0) {
+    //         this.selectedIndex--;
+    //         this.onselect(this.values[this.selectedIndex])
 
-            // this.selectedVal = this.values[this.selectedIndex];
-          }
-        } else if (e.key == "Escape") {
-          this.isFocused = false;
-          this.selectedIndex = -1;
-          //             if(this.selectedIndex>=0){
-          //     this.selectedIndex--
-          //     this.selectedVal=this.values[this.selectedIndex]
-          // }
-        } else {
+    //         // this.selectedVal = this.values[this.selectedIndex];
+    //       }
+    //     } else if (e.key == "Escape") {
+    //       this.isFocused = false;
+    //       this.selectedIndex = -1;
+    //       //             if(this.selectedIndex>=0){
+    //       //     this.selectedIndex--
+    //       //     this.selectedVal=this.values[this.selectedIndex]
+    //       // }
+    //     } else {
        
-        }
-      }
-    },
-    async getData(){
-           try {
-            const result = await this.$axios.$get(
-              "/api/products/autocomplete",
-              {
-                params: { q: this.selectedVal }
-              }
-            );
-            console.log(result)
-            this.products = result.data;
-          } catch (e) {
-          } finally {
-          }
-    },
-    onFocused() {
-      this.isFocused = true;
-      this.getData()
-    },
-    onUnfocused() {
-      console.log("naman khurana")
-      this.isFocused = false;
-      this.selectedIndex = -1;
-    }
+    //     }
+    //   }
+    // },
+    // async getData(){
+    //        try {
+    //         const result = await this.$axios.$get(
+    //           "/api/products/autocomplete",
+    //           {
+    //             params: { q: this.selectedVal }
+    //           }
+    //         );
+    //         console.log(result)
+    //         this.products = result.data;
+    //       } catch (e) {
+    //       } finally {
+    //       }
+    // },
+    // onFocused() {
+    //   this.isFocused = true;
+    //   this.getData()
+    // },
+    // onUnfocused() {
+    //   console.log("naman khurana")
+    //   this.isFocused = false;
+    //   this.selectedIndex = -1;
+    // }
   }
 };
 </script>
