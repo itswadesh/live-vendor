@@ -1,17 +1,17 @@
 <template>
   <section class="py-6 bg-gray-200">
     <Heading />
-    <Account1 />
+    <Account3 />
   </section>
 </template>
 
 <script>
 import Heading from "~/components/Help/Heading";
-import Account1 from "~/components/Help/Account1";
+import Account3 from "~/components/Help/Account3";
 export default {
   components: {
     Heading,
-    Account1,
+    Account3,
   },
 };
 </script>
