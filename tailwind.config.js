@@ -36,7 +36,7 @@ module.exports = {
         }
       },
       fontFamily: {
-        sans: ["sofia-pro"]
+        sans: ["Inter"]
       }
     }
   },
