@@ -34,7 +34,7 @@
       </button>
       <button
         type="submit"
-        class="absolute right-0 px-4 py-2 text-white bg-opacity-100 rounded-md bg-primary-500 hover:bg-opacity-75"
+        class="absolute right-0 px-4 py-2 text-white bg-opacity-100 rounded-r-md bg-primary-500 hover:bg-opacity-75"
       >
         Search
       </button>
@@ -49,52 +49,42 @@
     <div class="my-5">
       <div class="flex justify-center space-x-4">
         <div
-          class="w-40 p-4 bg-white border rounded-sm shadow-md cursor-pointer hover:border-primary-500 boredr-black"
+          class="w-40 p-4 text-gray-700 bg-white border rounded-sm shadow-md cursor-pointer hover:text-primary-500 hover:border-primary-500 boredr-black"
         >
           <img class="h-6 mx-auto" src="/a/shuttle.svg" alt="" />
-          <p
-            class="mt-3 text-xs text-center text-gray-700 hover:text-primary-500"
-          >
+          <p class="mt-3 text-xs text-center ">
             Getting Started
           </p>
         </div>
         <div
-          class="w-40 p-4 bg-white border rounded-sm shadow-md cursor-pointer hover:border-primary-500 boredr-black"
+          class="w-40 p-4 text-gray-700 bg-white border rounded-sm shadow-md cursor-pointer hover:text-primary-500 hover:border-primary-500 boredr-black"
         >
           <img class="h-6 mx-auto" src="/a/refund.svg" alt="" />
-          <p
-            class="mt-3 text-xs text-center text-gray-700 hover:text-primary-500"
-          >
+          <p class="mt-3 text-xs text-center ">
             Returns and Refunds
           </p>
         </div>
         <div
-          class="w-40 p-4 bg-white border rounded-sm shadow-md cursor-pointer hover:border-primary-500 boredr-black"
+          class="w-40 p-4 text-gray-700 bg-white border rounded-sm shadow-md cursor-pointer hover:text-primary-500 hover:border-primary-500 boredr-black"
         >
           <img class="h-6 mx-auto" src="/a/payment.svg" alt="" />
-          <p
-            class="mt-3 text-xs text-center text-gray-700 hover:text-primary-500"
-          >
+          <p class="mt-3 text-xs text-center ">
             Payments and Delivery
           </p>
         </div>
         <div
-          class="w-40 p-4 bg-white border rounded-sm shadow-md cursor-pointer hover:border-primary-500 boredr-black"
+          class="w-40 p-4 text-gray-700 bg-white border rounded-sm shadow-md cursor-pointer hover:border-primary-500 hover:text-primary-500 boredr-black"
         >
           <img class="h-6 mx-auto" src="/a/account.svg" alt="" />
-          <p
-            class="mt-3 text-xs text-center text-gray-700 hover:text-primary-500"
-          >
+          <p class="mt-3 text-xs text-center ">
             Account Management
           </p>
         </div>
         <div
-          class="w-40 p-4 bg-white border rounded-sm shadow-md cursor-pointer hover:border-primary-500 boredr-black"
+          class="w-40 p-4 text-gray-700 bg-white border rounded-sm shadow-md cursor-pointer hover:text-primary-500 hover:border-primary-500 boredr-black"
         >
           <img class="h-6 mx-auto" src="/a/query.svg" alt="" />
-          <p
-            class="mt-3 text-xs text-center text-gray-700 hover:text-primary-500"
-          >
+          <p class="mt-3 text-xs text-center ">
             Top Queries
           </p>
         </div>
@@ -108,5 +98,4 @@
 export default {};
 </script>
 
-<style>
-</style>
+<style></style>

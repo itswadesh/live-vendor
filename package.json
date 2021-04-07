@@ -19,6 +19,7 @@
     "tailwindcss-rtl": "^0.7.3"
   },
   "devDependencies": {
-    "@nuxtjs/tailwindcss": "^1.0.0"
+    "@nuxtjs/tailwindcss": "^1.0.0",
+    "nuxt-webfontloader": "^1.1.0"
   }
 }

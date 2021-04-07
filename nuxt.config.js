@@ -16,10 +16,10 @@ export default {
   },
   loading: { color: "#fff" },
   css: [],
-  plugins: [
-    { src: '~/plugins/directives.js', ssr:false },
-  ],
-  buildModules: ["@nuxtjs/axios", "@nuxtjs/tailwindcss"],
+  ssr: false,
+  components: true,
+  plugins: [{ src: "~/plugins/directives.js", ssr: false }],
+  buildModules: ["@nuxtjs/axios", "@nuxtjs/tailwindcss", "nuxt-webfontloader"],
   modules: ["@nuxtjs/pwa", "@nuxtjs/dotenv"],
   axios: {
     proxy: true
@@ -27,6 +27,11 @@ export default {
   proxy: {
     "/graphql": HTTP_ENDPOINT,
     "/api": HTTP_ENDPOINT
+  },
+  webfontloader: {
+    google: {
+      families: ["Inter:400,700&display=swap"]
+    }
   },
   build: {
     extend(config, ctx) {}
