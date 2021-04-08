@@ -23,7 +23,7 @@
         </h4>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="w-5 h-5 cursor-pointer"
+          class="w-5 h-5 cursor-pointer hover:text-black"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -64,20 +64,18 @@
           </h6>
           <div class="flex items-center">
             <div
-              class="ml-4 border border-gray-800 rounded-full cursor-pointer hover:bg-gray-200"
+              class="ml-4 transform border border-gray-800 rounded-full cursor-pointer hover:-translate-y-1 hover:bg-gray-200"
             >
               <img class="w-6 h-6 m-1" src="/a/t-up.svg" alt="" />
             </div>
             <div
-              class="ml-4 border border-gray-800 rounded-full cursor-pointer hover:bg-gray-200"
+              class="ml-4 transform border border-gray-800 rounded-full cursor-pointer hover:translate-y-1 hover:bg-gray-200"
             >
               <img class="w-6 h-6 m-1" src="/a/t-down.svg" alt="" />
             </div>
           </div>
         </div>
-        <a
-          href="#"
-          class="text-sm underline text-primary-500 hover:text-primary-200"
+        <a href="#" class="text-sm underline text-primary-500 hover:opacity-75"
           >Contact Us</a
         >
       </div>
