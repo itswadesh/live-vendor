@@ -13,14 +13,14 @@
     </div>
     <!-- White box start  -->
     <div
-      class="w-3/5 p-6 mx-auto my-5 text-gray-800 bg-white rounded-md shadow-md"
+      class="w-full p-6 mx-auto my-5 text-gray-800 bg-white rounded-md shadow-md sm:w-5/6"
     >
       <div class="flex justify-between pb-3 text-sm border-b border-gray-500">
         <p>How can I change my email id using same account and mobile number</p>
         <div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="w-6 h-6"
+            class="w-6 h-6 cursor-pointer hover:text-black"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -41,7 +41,7 @@
         <div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="w-6 h-6"
+            class="w-6 h-6 cursor-pointer hover:text-black"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -62,7 +62,7 @@
         <div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="w-6 h-6"
+            class="w-6 h-6 cursor-pointer hover:text-black"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"

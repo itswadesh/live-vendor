@@ -1,11 +1,15 @@
 <template>
-  <section>
-    <h1 class="text-4xl font-bold tracking-wide text-center text-primary-500">
+  <section class="">
+    <h1
+      class="text-2xl font-bold tracking-wide text-center md:text-4xl text-primary-500"
+    >
       How can we Help You?
     </h1>
 
     <!-- Search bar section start  -->
-    <div class="relative w-1/3 mx-auto my-5 text-gray-600 rounded-md shadow-md">
+    <div
+      class="relative w-full my-5 text-gray-600 rounded-md shadow-md md:mx-auto md:w-128"
+    >
       <input
         class="w-full h-10 px-10 text-sm bg-gray-100 border border-gray-400 rounded-md hover:bg-gray-200 focus:outline-none"
         type="search"
@@ -34,7 +38,7 @@
       </button>
       <button
         type="submit"
-        class="absolute right-0 px-4 py-2 text-white bg-opacity-100 rounded-r-md bg-primary-500 hover:bg-opacity-75"
+        class="absolute right-0 text-white padding rounded-r-md bg-primary-500 hover:bg-opacity-75"
       >
         Search
       </button>
@@ -46,47 +50,45 @@
     </p>
 
     <!-- Boxes start  -->
-    <div class="my-5">
-      <div class="flex justify-center space-x-4">
+    <div class="my-2 md:m-5">
+      <div class="flex flex-wrap justify-center">
         <div
-          class="w-40 p-4 text-gray-700 bg-white border rounded-sm shadow-md cursor-pointer hover:text-primary-500 hover:border-primary-500 boredr-black"
+          class="w-full px-4 py-6 my-2 text-gray-700 bg-white border rounded-sm shadow-md cursor-pointer md:m-2 md:w-40 h-28 hover:text-primary-500 hover:border-primary-500 boredr-black"
         >
           <img class="h-6 mx-auto" src="/a/shuttle.svg" alt="" />
-          <p class="mt-3 text-xs text-center ">
+          <p class="mt-3 text-xs text-center whitespace-no-wrap">
             Getting Started
           </p>
         </div>
         <div
-          class="w-40 p-4 text-gray-700 bg-white border rounded-sm shadow-md cursor-pointer hover:text-primary-500 hover:border-primary-500 boredr-black"
+          class="w-full px-4 py-6 my-2 text-gray-700 bg-white border rounded-sm shadow-md cursor-pointer md:m-2 md:w-40 h-28 hover:text-primary-500 hover:border-primary-500 boredr-black"
         >
           <img class="h-6 mx-auto" src="/a/refund.svg" alt="" />
-          <p class="mt-3 text-xs text-center ">
+          <p class="mt-3 text-xs text-center whitespace-no-wrap">
             Returns and Refunds
           </p>
         </div>
         <div
-          class="w-40 p-4 text-gray-700 bg-white border rounded-sm shadow-md cursor-pointer hover:text-primary-500 hover:border-primary-500 boredr-black"
+          class="w-full px-4 py-6 my-2 text-gray-700 bg-white border rounded-sm shadow-md cursor-pointer md:m-2 md:w-40 h-28 hover:text-primary-500 hover:border-primary-500 boredr-black"
         >
           <img class="h-6 mx-auto" src="/a/payment.svg" alt="" />
-          <p class="mt-3 text-xs text-center ">
+          <p class="mt-3 text-xs text-center whitespace-no-wrap">
             Payments and Delivery
           </p>
         </div>
         <div
-          class="w-40 p-4 text-gray-700 bg-white border rounded-sm shadow-md cursor-pointer hover:border-primary-500 hover:text-primary-500 boredr-black"
+          class="w-full px-4 py-6 my-2 text-gray-700 bg-white border rounded-sm shadow-md cursor-pointer md:m-2 md:w-40 h-28 hover:border-primary-500 hover:text-primary-500 boredr-black"
         >
           <img class="h-6 mx-auto" src="/a/account.svg" alt="" />
-          <p class="mt-3 text-xs text-center ">
+          <p class="mt-3 text-xs text-center whitespace-no-wrap">
             Account Management
           </p>
         </div>
         <div
-          class="w-40 p-4 text-gray-700 bg-white border rounded-sm shadow-md cursor-pointer hover:text-primary-500 hover:border-primary-500 boredr-black"
+          class="w-full px-4 py-6 my-2 text-gray-700 bg-white border rounded-sm shadow-md cursor-pointer md:m-2 md:w-40 h-28 hover:text-primary-500 hover:border-primary-500 boredr-black"
         >
           <img class="h-6 mx-auto" src="/a/query.svg" alt="" />
-          <p class="mt-3 text-xs text-center ">
-            Top Queries
-          </p>
+          <p class="mt-3 text-xs text-center whitespace-no-wrap">Top Queries</p>
         </div>
       </div>
     </div>
@@ -98,4 +100,8 @@
 export default {};
 </script>
 
-<style></style>
+<style scoped>
+.padding {
+  padding: 7.5px 21px;
+}
+</style>

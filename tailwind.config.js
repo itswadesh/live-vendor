@@ -37,6 +37,10 @@ module.exports = {
       },
       fontFamily: {
         sans: ["Inter"]
+      },
+      spacing: {
+        '128': '32rem',
+
       }
     }
   },
