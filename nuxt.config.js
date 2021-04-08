@@ -12,7 +12,18 @@ export default {
         content: process.env.npm_package_description || ""
       }
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
+    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+    script: [
+      {
+        src: "http://support-dev.tablez.com/supportboard/js/min/jquery.min.js",
+        defer: true
+      },
+      {
+        src: "http://support-dev.tablez.com/supportboard/js/main.js",
+        defer: true,
+        id: "sbinit"
+      }
+    ]
   },
   loading: { color: "#fff" },
   css: [],
