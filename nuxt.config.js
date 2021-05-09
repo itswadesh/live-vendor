@@ -1,6 +1,5 @@
 const HTTP_ENDPOINT = "https://tapi.litekart.in";
 export default {
-  mode: "universal",
   head: {
     title: process.env.npm_package_name || "",
     meta: [
