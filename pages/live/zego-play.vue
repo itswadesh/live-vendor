@@ -21,7 +21,7 @@ const appID = 3268197896,
   token = `eyJ2ZXIiOjEsImhhc2giOiI2YjNlNDBhNjgxMWM0N2E1N2MwYTQ0YmE4ZDkzOTlhMyIsIm5vbmNlIjoiOTJiZDE2MjM3MmE4OTUzMGE3MTFhNTljY2MyMGMzZDUiLCJleHBpcmVkIjoxNjIzMTM4NTYzfQ==`,
   userID = "2lessons@gmail.com",
   userName = "itswadesh";
-const streamID = "xxx";
+const streamID = "misiki";
 export default {
   data() {
     return {
@@ -48,7 +48,7 @@ export default {
     async play() {
       const zg = this.zg;
       try {
-        const streamID = "xxx";
+        const streamID = "misiki";
         const playOption = {};
         // playOption["resourceMode"] = 2;
         const stream = await this.zg.startPlayingStream(streamID, playOption);
@@ -72,7 +72,6 @@ export default {
         alert("roomId is empty");
         return false;
       }
-      console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzz", roomId);
       for (let i = 0; i < this.streamList.length; i++) {
         console.log("111111111111111111111111", this.streamList[i].streamID);
         this.streamList[i].streamID &&
