@@ -1675,6 +1675,11 @@ aggregate-error@^3.0.0:
     clean-stack "^2.0.0"
     indent-string "^4.0.0"
 
+agora-rtc-sdk-ng@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/agora-rtc-sdk-ng/-/agora-rtc-sdk-ng-4.4.0.tgz#ea036cab115f8f206e654e258ffce175548048ad"
+  integrity sha512-wcXLPL9+5BwRXlALm2LYADMRALC2Q76On/BGgJgEmURnnIdJkiWito6YKrXsumkxvnzCGlkPgIt6QoLVqnAYug==
+
 ajv-errors@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/ajv-errors/-/ajv-errors-1.0.1.tgz#f35986aceb91afadec4102fbd85014950cefa64d"
@@ -2983,7 +2988,7 @@ de-indent@^1.0.2:
   resolved "https://registry.yarnpkg.com/de-indent/-/de-indent-1.0.2.tgz#b2038e846dc33baa5796128d0804b455b8c1e21d"
   integrity sha1-sgOOhG3DO6pXlhKNCAS0VbjB4h0=
 
-debug@2.6.9, debug@^2.2.0:
+debug@2.6.9, debug@^2.2.0, debug@^2.3.3:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
   integrity sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==
@@ -4699,7 +4704,7 @@ loader-runner@^4.1.0:
   resolved "https://registry.yarnpkg.com/loader-runner/-/loader-runner-4.2.0.tgz#d7022380d66d14c5fb1d496b89864ebcfd478384"
   integrity sha512-92+huvxMvYlMzMt0iIOukcwYBFpkYJdpl2xsZ7LrlayO7E8SOv+JJUEK17B/dJIHAOLMfh2dZZ/Y18WgmGtYNw==
 
-loader-utils@^1.0.2, loader-utils@^1.1.0, loader-utils@^1.2.3, loader-utils@^1.4.0:
+loader-utils@^1.1.0, loader-utils@^1.2.3, loader-utils@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-1.4.0.tgz#c579b5e34cb34b1a74edc6c1fb36bfa371d5a613"
   integrity sha512-qH0WSMBtn/oHuwjy/NucEgbx5dbxxnxup9s4PVXJUDHZBQY+s0NWA9rJf53RBnQZxfch7euUui7hpoAPvALZdA==
@@ -5707,6 +5712,11 @@ pnp-webpack-plugin@^1.6.4:
   integrity sha512-7Wjy+9E3WwLOEL30D+m8TSTF7qJJUJLONBnwQp0518siuMxUQUbgZwssaFX+QKlZkjHZcw/IpZCt/H0srrntSg==
   dependencies:
     ts-pnp "^1.1.6"
+
+posix-character-classes@^0.1.0:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
+  integrity sha1-AerA/jta9xoqbAL+q7jB/vfgDqs=
 
 postcss-attribute-case-insensitive@^4.0.1:
   version "4.0.2"
@@ -8009,9 +8019,6 @@ vue-style-loader@^4.1.0, vue-style-loader@^4.1.3:
   version "4.1.3"
   resolved "https://registry.yarnpkg.com/vue-style-loader/-/vue-style-loader-4.1.3.tgz#6d55863a51fa757ab24e89d9371465072aa7bc35"
   integrity sha512-sFuh0xfbtpRlKfm39ss/ikqs9AbKCoXZBpHeVZ8Tx650o0k0q/YCM7FRvigtxpACezfq6af+a7JeqVTWvncqDg==
-  dependencies:
-    hash-sum "^1.0.2"
-    loader-utils "^1.0.2"
 
 vue-template-compiler@^2.6.12:
   version "2.6.12"
@@ -8338,3 +8345,22 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+zego-express-engine-webrtc@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/zego-express-engine-webrtc/-/zego-express-engine-webrtc-2.6.0.tgz#934549d40845002d431c8eb6661fdfe3eec2f788"
+  integrity sha512-7ySMbjECE/ZzZCjfs293K9sKoFqdLghhgYs+UA+cIl35SXDXmaV9FBU3RBve5YdpniPsot+hnkJvs7dvsXnVfA==
+  dependencies:
+    zego-express-engine-webrtm "1.6.0"
+
+zego-express-engine-webrtm@1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/zego-express-engine-webrtm/-/zego-express-engine-webrtm-1.6.0.tgz#88fa4797da6ae16f57f27f59c7bf0c20749d56c5"
+  integrity sha512-oVw/ZzYP6pc305OuZMo6UejtGEZqTcidw7cJ2yIRIEQFxnPmIuEPTHvzln+SGfT+OeOn+D8IKppkU0/Cnogztg==
+  dependencies:
+    zego-express-logger "1.1.0"
+
+zego-express-logger@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/zego-express-logger/-/zego-express-logger-1.1.0.tgz#42c75fbb7f891f87ea3354086dcd52963b75e365"
+  integrity sha512-hs1oR0PgCYhgKYl5qx0xhnXBAPV7h2UWbQ6xup3evfU2bnCIJ7PEodYchT3/ncQqDFO7mfvelDC4nXq8jlt/uA==
