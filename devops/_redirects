@@ -1,0 +1,4 @@
+/graphql  https://next-api.anne.biz/graphql  200
+/api/*  https://next-api.anne.biz/api/:splat  200
+/images/*  https://next-api.anne.biz/images/:splat  200
+/* /index.html 200

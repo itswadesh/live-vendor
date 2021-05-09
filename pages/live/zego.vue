@@ -1,13 +1,12 @@
 <template>
   <div class="bg-red-100">
-    <button @click="publish" class="px-4 py-2 bg-green-500">Publish</button>
+    <button @click="start" class="px-4 py-2 bg-green-500">Publish</button>
     <button @click="stop" class="px-4 py-2 bg-green-500">stop</button>
-    <button @click="destroy" class="px-4 py-2 bg-green-500">destroy</button>
+    <button @click="leave" class="px-4 py-2 bg-green-500">destroy</button>
     <video
       autoplay
       muted
-      v-for="vd in streamList"
-      :srcObject.prop="vd.stream"
+      :srcObject.prop="previewStream"
       width="500"
       height="500"
     />;
@@ -19,23 +18,83 @@ import { ZegoExpressEngine } from "zego-express-engine-webrtc";
 const appID = 3268197896,
   server = "wss://webliveroom-hk-test.zegocloud.com/ws",
   roomID = "misiki",
-  token = `eyJ2ZXIiOjEsImhhc2giOiI2YjNlNDBhNjgxMWM0N2E1N2MwYTQ0YmE4ZDkzOTlhMyIsIm5vbmNlIjoiOTJiZDE2MjM3MmE4OTUzMGE3MTFhNTljY2MyMGMzZDUiLCJleHBpcmVkIjoxNjIzMTM4NTYzfQ==`,
-  userID = "2lessons@gmail.com",
+  token = `eyJ2ZXIiOjEsImhhc2giOiJjNDE4ZjU2YmQ2NjlhMzkxNDM3NWMzNjIxYWNhNDIzMSIsIm5vbmNlIjoiZjFhNGYzYWRkNzhlNDcyZjhkNzg2OThlOTdlMzA4OTUiLCJleHBpcmVkIjoxNjIzMTc0NDc2fQ==`,
+  userID = "sample1620582469164",
   userName = "itswadesh";
-const streamID = "misiki";
+// const streamID = "misiki";
+const publishStreamID = "web-" + new Date().getTime();
+
 export default {
   data() {
     return {
       streamList: [],
+      useLocalStreamList: [],
       zg: null,
-      loginRoom: false
+      loginRoom: false,
+      previewStream: null,
+      isPreviewed: false,
+      published: false
     };
   },
   methods: {
+    async start() {
+      let loginSuc = false;
+      try {
+        loginSuc = await this.enterRoom(roomID);
+        const constraints = {
+          AEC: true,
+          AGC: true,
+          ANS: true,
+          channelCount: 1,
+          videoQuality: 1
+        };
+        loginSuc && (await this.publish());
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async stop() {
       try {
         await this.zg.stopPublishingStream(streamID);
       } catch (e) {}
+    },
+    async leave() {
+      const zg = this.zg;
+      // if (this.previewed) {
+      zg.destroyStream(this.previewStream);
+      this.previewed = false;
+      //   // this.previewVideo.srcObject = null;
+      // }
+      // if (this.published) {
+      zg.stopPublishingStream(publishStreamID);
+      this.published = false;
+      // }
+
+      this.logout();
+    },
+
+    async logout() {
+      const zg = this.zg;
+      console.info("leave room  and close stream");
+      this.previewStream = null;
+
+      // stop publishing
+      if (this.isPreviewed) {
+        zg.stopPublishingStream(publishStreamID);
+        zg.destroyStream(this.localStream);
+        this.isPreviewed = false;
+      }
+
+      // stop playing
+      for (let i = 0; i < this.useLocalStreamList.length; i++) {
+        this.useLocalStreamList[i].streamID &&
+          zg.stopPlayingStream(this.useLocalStreamList[i].streamID);
+      }
+
+      // Clear page
+      this.useLocalStreamList = [];
+      zg.logoutRoom(roomID);
+      // loginRoom = false;
     },
     async destroy() {
       try {
@@ -50,16 +109,28 @@ export default {
       const zg = this.zg;
       try {
         // create the stream
-        const localStream = await zg.createStream();
-        this.streamList.push({ stream: localStream });
-        await zg.startPublishingStream(streamID, localStream);
+        this.localStream = this.previewStream = await zg.createStream();
+        this.isPreviewed = true;
+        const publishStreamId = "webrtc" + new Date().getTime();
+        const result = zg.startPublishingStream(
+          publishStreamId,
+          this.localStream
+        );
+        this.published = true;
+        console.error(
+          "zzzzzzzzzzzzzzzzzzzzzzzzzzz",
+          publishStreamId,
+          this.localStream
+        );
       } catch (e) {
         console.error("ERR::: ", e);
       }
     },
 
     async login(roomId) {
-      return await this.zg.loginRoom(
+      const zg = this.zg;
+
+      await zg.loginRoom(
         roomId,
         token,
         { userID, userName },
@@ -73,15 +144,19 @@ export default {
         alert("roomId is empty");
         return false;
       }
-      console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzz", roomId);
-      for (let i = 0; i < this.streamList.length; i++) {
-        console.log("111111111111111111111111", this.streamList[i].streamID);
-        this.streamList[i].streamID &&
-          zg.stopPlayingStream(this.streamList[i].streamID);
+
+      for (let i = 0; i < this.useLocalStreamList.length; i++) {
+        this.useLocalStreamList[i].streamID &&
+          zg.stopPlayingStream(this.useLocalStreamList[i].streamID);
       }
 
-      this.listenForEvents();
-      return (this.loginRoom = await this.login(roomId));
+      await this.login(roomId);
+
+      this.loginRoom = true;
+
+      console.warn("remoteVideo");
+
+      return true;
     },
     listenForEvents() {
       const zg = this.zg;
@@ -136,9 +211,9 @@ export default {
           console.warn("browser", browser);
           if (browser === "Safari") {
             // const videos = $(".remoteVideo video");
-            for (let i = 0; i < videos.length; i++) {
-              videos[i].srcObject = videos[i].srcObject;
-            }
+            // for (let i = 0; i < videos.length; i++) {
+            //   videos[i].srcObject = videos[i].srcObject;
+            // }
           }
         } else if (result.state == "PLAY_REQUESTING") {
           console.info(" play  retry");
@@ -191,17 +266,17 @@ export default {
 
               zg.startPlayingStream(streamList[i].streamID, playOption)
                 .then(stream => {
-                  remoteStream = stream;
-                  useLocalStreamList.push(streamList[i]);
+                  this.remoteStream = stream;
+                  this.useLocalStreamList.push(streamList[i]);
                   // let videoTemp = $(
                   //   `<video id=${streamList[i].streamID} autoplay muted playsinline controls></video>`
                   // );
                   //queue.push(videoTemp)
                   // $(".remoteVideo").append(videoTemp);
                   // const video = $(".remoteVideo video:last")[0];
-                  console.warn("video", video, remoteStream);
-                  video.srcObject = remoteStream;
-                  video.muted = false;
+                  // console.warn("video", video, remoteStream);
+                  // video.srcObject = remoteStream;
+                  // video.muted = false;
                   // videoTemp = null;
                 })
                 .catch(err => {
@@ -227,19 +302,23 @@ export default {
             //     gain.connect(ac.destination);
             // }
           } else if (updateType == "DELETE") {
-            for (let k = 0; k < useLocalStreamList.length; k++) {
+            for (let k = 0; k < this.useLocalStreamList.length; k++) {
               for (let j = 0; j < streamList.length; j++) {
-                if (useLocalStreamList[k].streamID === streamList[j].streamID) {
+                if (
+                  this.useLocalStreamList[k].streamID === streamList[j].streamID
+                ) {
                   try {
-                    zg.stopPlayingStream(useLocalStreamList[k].streamID);
+                    zg.stopPlayingStream(this.useLocalStreamList[k].streamID);
                   } catch (error) {
                     console.error(error);
                   }
 
-                  console.info(useLocalStreamList[k].streamID + "was devared");
+                  console.info(
+                    this.useLocalStreamList[k].streamID + "was devared"
+                  );
 
                   // $(".remoteVideo video:eq(" + k + ")").remove();
-                  useLocalStreamList.splice(k--, 1);
+                  this.useLocalStreamList.splice(k--, 1);
                   break;
                 }
               }
@@ -313,14 +392,14 @@ export default {
     zg.setDebugVerbose(false);
     zg.setSoundLevelDelegate(true, 3000);
 
-    let loginSuc = false;
-    try {
-      loginSuc = await this.enterRoom(roomID);
-      loginSuc && (await this.publish());
-      console.log("Published..............");
-    } catch (error) {
-      console.error(error);
-    }
+    // let loginSuc = false;
+    // try {
+    //   loginSuc = await this.enterRoom(roomID);
+    //   // loginSuc && (await this.publish());
+    //   // console.log("Published..............");
+    // } catch (error) {
+    //   console.error(error);
+    // }
   }
 };
 </script>

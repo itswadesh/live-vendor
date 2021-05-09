@@ -5,7 +5,7 @@
     <video
       autoplay
       muted
-      v-for="vd in streamList"
+      v-for="vd in useLocalStreamList"
       :srcObject.prop="vd.stream"
       width="500"
       height="500"
@@ -26,11 +26,21 @@ export default {
   data() {
     return {
       streamList: [],
+      useLocalStreamList: [],
       zg: null,
       loginRoom: false
     };
   },
   methods: {
+    async play() {
+      // let loginSuc;
+      // try {
+      //   loginSuc = await this.enterRoom(roomID);
+      //   loginSuc && (await this.publish());
+      // } catch (error) {
+      //   console.error(error);
+      // }
+    },
     async stop() {
       try {
         await this.zg.stopPublishingStream(streamID);
@@ -45,13 +55,13 @@ export default {
         console.log("destroy...........", e);
       }
     },
-    async play() {
+    async publish() {
       const zg = this.zg;
       try {
-        const streamID = "misiki";
-        const playOption = {};
-        // playOption["resourceMode"] = 2;
-        const stream = await this.zg.startPlayingStream(streamID, playOption);
+        // create the stream
+        const localStream = await zg.createStream();
+        this.streamList.push({ stream: localStream });
+        await zg.startPublishingStream(streamID, localStream);
       } catch (e) {
         console.error("ERR::: ", e);
       }
@@ -73,7 +83,6 @@ export default {
         return false;
       }
       for (let i = 0; i < this.streamList.length; i++) {
-        console.log("111111111111111111111111", this.streamList[i].streamID);
         this.streamList[i].streamID &&
           zg.stopPlayingStream(this.streamList[i].streamID);
       }
@@ -81,7 +90,6 @@ export default {
       this.listenForEvents();
       return (this.loginRoom = await this.login(roomId));
     },
-
     listenForEvents() {
       const zg = this.zg;
       zg.on("roomStateUpdate", (roomID, state, errorCode, extendedData) => {
@@ -131,14 +139,14 @@ export default {
         console.log("playerStateUpdate", result.streamID, result.state);
         if (result.state == "PLAYING") {
           console.info(" play  success " + result.streamID);
-          const browser = getBrowser();
-          console.warn("browser", browser);
-          if (browser === "Safari") {
-            // const videos = $(".remoteVideo video");
-            for (let i = 0; i < videos.length; i++) {
-              videos[i].srcObject = videos[i].srcObject;
-            }
-          }
+          // const browser = getBrowser();
+          // console.warn("browser", browser);
+          // if (browser === "Safari") {
+          //   // const videos = $(".remoteVideo video");
+          //   for (let i = 0; i < videos.length; i++) {
+          //     videos[i].srcObject = videos[i].srcObject;
+          //   }
+          // }
         } else if (result.state == "PLAY_REQUESTING") {
           console.info(" play  retry");
         } else {
@@ -186,21 +194,21 @@ export default {
 
               // if ($("#videoCodec").val())
               //   playOption.videoCodec = $("#videoCodec").val();
-              if (l3 == true) playOption.resourceMode = 2;
+              // if (l3 == true) playOption.resourceMode = 2;
 
               zg.startPlayingStream(streamList[i].streamID, playOption)
                 .then(stream => {
                   remoteStream = stream;
-                  useLocalStreamList.push(streamList[i]);
+                  this.useLocalStreamList.push({ stream: remoteStream });
                   // let videoTemp = $(
                   //   `<video id=${streamList[i].streamID} autoplay muted playsinline controls></video>`
                   // );
                   //queue.push(videoTemp)
                   // $(".remoteVideo").append(videoTemp);
                   // const video = $(".remoteVideo video:last")[0];
-                  console.warn("video", video, remoteStream);
-                  video.srcObject = remoteStream;
-                  video.muted = false;
+                  // console.warn("video", video, remoteStream);
+                  // video.srcObject = remoteStream;
+                  // video.muted = false;
                   // videoTemp = null;
                 })
                 .catch(err => {
@@ -226,19 +234,23 @@ export default {
             //     gain.connect(ac.destination);
             // }
           } else if (updateType == "DELETE") {
-            for (let k = 0; k < useLocalStreamList.length; k++) {
+            for (let k = 0; k < this.useLocalStreamList.length; k++) {
               for (let j = 0; j < streamList.length; j++) {
-                if (useLocalStreamList[k].streamID === streamList[j].streamID) {
+                if (
+                  this.useLocalStreamList[k].streamID === streamList[j].streamID
+                ) {
                   try {
-                    zg.stopPlayingStream(useLocalStreamList[k].streamID);
+                    zg.stopPlayingStream(this.useLocalStreamList[k].streamID);
                   } catch (error) {
                     console.error(error);
                   }
 
-                  console.info(useLocalStreamList[k].streamID + "was devared");
+                  console.info(
+                    this.useLocalStreamList[k].streamID + "was devared"
+                  );
 
                   // $(".remoteVideo video:eq(" + k + ")").remove();
-                  useLocalStreamList.splice(k--, 1);
+                  this.useLocalStreamList.splice(k--, 1);
                   break;
                 }
               }
@@ -304,7 +316,7 @@ export default {
     const zg = (this.zg = new ZegoExpressEngine(appID, server));
 
     zg.setLogConfig({
-      logLevel: "debug",
+      logLevel: "error",
       remoteLogLevel: "info",
       logURL: ""
     });
@@ -314,9 +326,9 @@ export default {
 
     let loginSuc = false;
     try {
-      console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzz", roomID);
       loginSuc = await this.enterRoom(roomID);
       // loginSuc && (await this.publish());
+      console.log("Entered..............", loginSuc);
     } catch (error) {
       console.error(error);
     }
