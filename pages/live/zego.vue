@@ -73,16 +73,15 @@ export default {
         alert("roomId is empty");
         return false;
       }
-
+      console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzz", roomId);
       for (let i = 0; i < this.streamList.length; i++) {
+        console.log("111111111111111111111111", this.streamList[i].streamID);
         this.streamList[i].streamID &&
           zg.stopPlayingStream(this.streamList[i].streamID);
       }
 
-      await this.login(roomId);
-
-      this.loginRoom = true;
       this.listenForEvents();
+      return (this.loginRoom = await this.login(roomId));
     },
     listenForEvents() {
       const zg = this.zg;
@@ -173,7 +172,7 @@ export default {
       zg.on(
         "roomStreamUpdate",
         async (roomID, updateType, streamList, extendedData) => {
-          console.log(
+          console.error(
             "roomStreamUpdate 1 roomID ",
             roomID,
             streamList,
@@ -306,7 +305,7 @@ export default {
     const zg = (this.zg = new ZegoExpressEngine(appID, server));
 
     zg.setLogConfig({
-      logLevel: "debug",
+      logLevel: "error",
       remoteLogLevel: "info",
       logURL: ""
     });
@@ -318,6 +317,7 @@ export default {
     try {
       loginSuc = await this.enterRoom(roomID);
       loginSuc && (await this.publish());
+      console.log("Published..............");
     } catch (error) {
       console.error(error);
     }

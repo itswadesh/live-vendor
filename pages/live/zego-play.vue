@@ -72,17 +72,17 @@ export default {
         alert("roomId is empty");
         return false;
       }
-
+      console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzz", roomId);
       for (let i = 0; i < this.streamList.length; i++) {
+        console.log("111111111111111111111111", this.streamList[i].streamID);
         this.streamList[i].streamID &&
           zg.stopPlayingStream(this.streamList[i].streamID);
       }
 
-      await this.login(roomId);
-
-      this.loginRoom = true;
       this.listenForEvents();
+      return (this.loginRoom = await this.login(roomId));
     },
+
     listenForEvents() {
       const zg = this.zg;
       zg.on("roomStateUpdate", (roomID, state, errorCode, extendedData) => {
@@ -315,6 +315,7 @@ export default {
 
     let loginSuc = false;
     try {
+      console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzz", roomID);
       loginSuc = await this.enterRoom(roomID);
       // loginSuc && (await this.publish());
     } catch (error) {
