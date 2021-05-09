@@ -1,8 +1,7 @@
 <template>
   <div class="bg-red-100">
-    <button @click="publish" class="px-4 py-2 bg-green-500">Publish</button>
-    <button @click="stop" class="px-4 py-2 bg-green-500">stop</button>
-    <button @click="destroy" class="px-4 py-2 bg-green-500">destroy</button>
+    <button @click="play" class="px-4 py-2 bg-green-500">Play</button>
+
     <video
       autoplay
       muted
@@ -46,13 +45,13 @@ export default {
         console.log("destroy...........", e);
       }
     },
-    async publish() {
+    async play() {
       const zg = this.zg;
       try {
-        // create the stream
-        const localStream = await zg.createStream();
-        this.streamList.push({ stream: localStream });
-        await zg.startPublishingStream(streamID, localStream);
+        const streamID = "xxx";
+        const playOption = {};
+        // playOption["resourceMode"] = 2;
+        const stream = await this.zg.startPlayingStream(streamID, playOption);
       } catch (e) {
         console.error("ERR::: ", e);
       }
@@ -173,7 +172,7 @@ export default {
       zg.on(
         "roomStreamUpdate",
         async (roomID, updateType, streamList, extendedData) => {
-          console.log(
+          console.error(
             "roomStreamUpdate 1 roomID ",
             roomID,
             streamList,
@@ -317,7 +316,7 @@ export default {
     let loginSuc = false;
     try {
       loginSuc = await this.enterRoom(roomID);
-      loginSuc && (await this.publish());
+      // loginSuc && (await this.publish());
     } catch (error) {
       console.error(error);
     }
