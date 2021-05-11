@@ -1,0 +1,11 @@
+query zego {
+  zego {
+    appID
+    server
+    roomID
+    token
+    tokenView
+    userID
+    userName
+  }
+}
