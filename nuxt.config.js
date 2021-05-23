@@ -6,7 +6,7 @@ import {
   dev,
   tailwindcss,
   PORT,
-  GOOGLE_ANALYTICS_ID
+  GOOGLE_ANALYTICS_ID,
 } from './shared/config/index'
 const whitelistPatterns = [/(slick-+|swal2-)/]
 export default {
@@ -18,16 +18,21 @@ export default {
       {
         hid: 'description',
         name: 'description',
-        content: process.env.npm_package_description || ''
-      }
+        content: process.env.npm_package_description || '',
+      },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
   loading: { color: '#fff' },
   css: [],
   ssr: false,
   components: true,
-  plugins: [{ src: '~/plugins/directives.js', ssr: false }],
+  plugins: [
+    { src: '~/plugins/directives.js', ssr: false },
+    { src: '~/plugins/filters.js', mode: 'client' },
+    { src: '~/plugins/vue-mq.js' },
+    { src: '~/plugins/lazy.js', mode: 'client' },
+  ],
   buildModules: [
     '@nuxtjs/apollo',
     '@nuxtjs/tailwindcss',
@@ -35,7 +40,7 @@ export default {
     'nuxt-webfontloader',
     '@nuxtjs/google-analytics',
     '@nuxtjs/pwa',
-    'vue-social-sharing/nuxt'
+    'vue-social-sharing/nuxt',
     // 'nuxt-vite',
   ],
   modules: [
@@ -45,45 +50,45 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/dotenv',
     'cookie-universal-nuxt',
-    'vue-sweetalert2/nuxt'
+    'vue-sweetalert2/nuxt',
   ],
   pageTransition: 'slide-bottom',
   layoutTransition: 'slide-bottom',
   toast: {
-    singleton: true
+    singleton: true,
   },
   purgeCSS: {
     // whitelist,
-    whitelistPatterns
+    whitelistPatterns,
   },
   axios: {
-    proxy: true
+    proxy: true,
   },
   apollo: {
     clientConfigs: {
       default: {
         httpEndpoint: `${WWW_URL}/graphql`,
-        browserHttpEndpoint: '/graphql'
+        browserHttpEndpoint: '/graphql',
         // wsEndpoint: server.replace('http', 'ws') + '/graphql',
-      }
+      },
     },
     defaultOptions: {
       $query: {
         loadingKey: 'loading',
-        fetchPolicy: 'cache-and-network'
-      }
-    }
+        fetchPolicy: 'cache-and-network',
+      },
+    },
   },
   proxy: {
     '/graphql': HTTP_ENDPOINT,
-    '/api': HTTP_ENDPOINT
+    '/api': HTTP_ENDPOINT,
   },
   webfontloader: {
     google: {
-      families: ['Inter:400,700&display=swap']
-    }
+      families: ['Inter:400,700&display=swap'],
+    },
   },
   build: {
-    extend(config, ctx) {}
-  }
+    extend(config, ctx) {},
+  },
 }
