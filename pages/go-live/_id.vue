@@ -215,7 +215,7 @@
             class="flex items-center justify-center m-2 space-x-2 md:space-x-5"
           >
             <button
-              @click="start"
+              @click="publish($route.params.id)"
               class="flex items-center justify-center w-32 py-1 font-semibold tracking-wide transition duration-300 bg-white rounded-md shadow-md  focus:ring-2 hover:shadow focus:outline-none focus:ring-red-500"
             >
               <img
@@ -327,7 +327,7 @@ export default {
     }),
     removeProductFromList(index) {
       // console.log('zzzzzzzzzzzzzzzzzzzzzzzzzzz', id)
-      console.log(this.live, 'live')
+      // console.log(this.live, 'live')
       // var val = this.live.products.find((p)=>{
       //   console.log(p.id)
       //  return p.id != id
@@ -400,7 +400,6 @@ export default {
                 fetchPolicy: 'no-cache',
               })
             ).data.liveStream || {}
-          console.log(this.live, 'live')
           this.live.scheduleDateTime = moment(
             this.live.scheduleDateTime
           ).format('YYYY-MM-DD hh:mm:ss a')

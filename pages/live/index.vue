@@ -13,10 +13,11 @@
 import Sidebar from '~/components/Livenow/Sidebar.vue'
 import Livenow from '~/components/Livenow/Livenow.vue'
 export default {
+  middleware: ['isAuth'],
   components: {
     Sidebar,
-    Livenow
-  }
+    Livenow,
+  },
 }
 </script>
 

@@ -1,3 +1,4 @@
+import { I18N } from './config/lang'
 import {
   HTTP_ENDPOINT,
   ONESIGNAL_APP_ID,
@@ -10,6 +11,10 @@ import {
 } from './shared/config/index'
 const whitelistPatterns = [/(slick-+|swal2-)/]
 export default {
+  server: {
+    host: '0.0.0.0',
+    port: 3000,
+  },
   head: {
     title: process.env.npm_package_name || '',
     meta: [
@@ -41,6 +46,7 @@ export default {
     '@nuxtjs/google-analytics',
     '@nuxtjs/pwa',
     'vue-social-sharing/nuxt',
+    ['nuxt-i18n', I18N],
     // 'nuxt-vite',
   ],
   modules: [

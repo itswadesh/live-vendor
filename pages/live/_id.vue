@@ -62,6 +62,7 @@ import ME from '~/gql/user/me.gql'
 import LIVE_STREAM from '~/gql/liveStream/liveStream.gql'
 
 export default {
+  middleware: ['isAuth'],
   data() {
     return {
       streamList: [],
@@ -80,10 +81,10 @@ export default {
       //         fetchPolicy: 'no-cache',
       //       })
       //     ).data.me || {}
-      const userID = '2lessons@gmail.com'
-      const userName = 'itswadesh'
-      // const userID = this.zego.userID //'2lessons@gmail.com'
-      // const userName = this.zego.userName // 'itswadesh'
+      // const userID = '2lessons@gmail.com'
+      // const userName = 'itswadeshh'
+      const userID = this.zego.userID //'2lessons@gmail.com'
+      const userName = this.zego.userName // 'itswadesh'
       return await this.zg.loginRoom(
         roomId,
         token,
@@ -161,13 +162,12 @@ export default {
     },
   },
   async mounted() {
-    this.zego =
+    const zego = (this.zego =
       (
         await this.$apollo.query({
           query: ZEGO,
-          fetchPolicy: 'no-cache',
         })
-      ).data.zego || {}
+      ).data.zego || {})
 
     this.live =
       (
@@ -179,10 +179,7 @@ export default {
       ).data.liveStream || {}
     const ZegoExpressEngine =
       require('zego-express-engine-webrtc').ZegoExpressEngine
-    const zg = (this.zg = new ZegoExpressEngine(
-      this.zego.appID,
-      this.zego.server
-    ))
+    const zg = (this.zg = new ZegoExpressEngine(zego.appID, zego.server))
     zg.setLogConfig({
       logLevel: 'error',
       remoteLogLevel: 'info',
@@ -194,10 +191,10 @@ export default {
 
     let loginSuc = false
     try {
-      loginSuc = await this.enterRoom(this.zego.roomID, this.zego.tokenView)
+      loginSuc = await this.enterRoom(this.$route.params.id, zego.token)
       // loginSuc && (await this.publish());
     } catch (error) {
-      console.error(error)
+      console.error('Enter Room...', error)
     }
   },
 }
