@@ -74,15 +74,6 @@ export default {
   },
   methods: {
     async login(roomId, token) {
-      //   const user =
-      //     (
-      //       await this.$apollo.query({
-      //         query: ME,
-      //         fetchPolicy: 'no-cache',
-      //       })
-      //     ).data.me || {}
-      // const userID = '2lessons@gmail.com'
-      // const userName = 'itswadeshh'
       const userID = this.zego.userID //'2lessons@gmail.com'
       const userName = this.zego.userName // 'itswadesh'
       return await this.zg.loginRoom(
@@ -91,8 +82,6 @@ export default {
         { userID, userName },
         { userUpdate: true }
       )
-      // this.zego.token,
-      // { userID: this.zego.userID, userName: this.zego.userName },
     },
 
     async enterRoom(roomId, token) {

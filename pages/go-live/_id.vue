@@ -21,10 +21,10 @@
           class="mb-5 shadow-md"
         />
         <div class="mb-5">
-          <VueCtkDateTimePicker
+          <!-- <VueCtkDateTimePicker
             v-model="live.scheduleDateTime"
             class="shadow-md"
-          />
+          /> -->
         </div>
         <div class="p-4 mb-5 bg-white rounded-md shadow-md">
           <div class="flex flex-wrap justify-center lg:justify-start">
@@ -215,6 +215,7 @@
             class="flex items-center justify-center m-2 space-x-2 md:space-x-5"
           >
             <button
+              type="button"
               @click="publish($route.params.id)"
               class="flex items-center justify-center w-32 py-1 font-semibold tracking-wide transition duration-300 bg-white rounded-md shadow-md  focus:ring-2 hover:shadow focus:outline-none focus:ring-red-500"
             >
@@ -243,6 +244,7 @@
               <span class="ml-2 text-sm md:text-base">Stop</span>
             </button>
             <button
+              type="button"
               @click="leave"
               class="flex items-center justify-center w-32 py-1 font-semibold tracking-wide transition duration-300 bg-white rounded-md shadow-md  hover:shadow focus:outline-none"
             >
@@ -273,6 +275,16 @@
             <span>00:00:00</span>
           </div>
         </div>
+        <div class="bg-red-100">
+          <video
+            autoplay
+            muted
+            v-for="vd in useLocalStreamList"
+            :srcObject.prop="vd.stream"
+            width="500"
+            height="500"
+          />
+        </div>
       </div>
     </form>
   </section>
@@ -292,6 +304,7 @@ import LIVE_STREAM from '~/gql/liveStream/liveStream.gql'
 import SAVE_LIVE_STREAM from '~/gql/liveStream/saveLiveStream.gql'
 import PRODUCTS from '~/gql/product/products.gql'
 import zego from '~/shared/mixins/zego'
+import ZEGO from '~/gql/liveStream/zego.gql'
 export default {
   data() {
     return {
@@ -325,6 +338,38 @@ export default {
       setErr: 'setErr',
       busy: 'busy',
     }),
+
+    async login(roomId) {
+      const zg = this.zg
+
+      await zg.loginRoom(
+        roomId,
+        this.zego.token,
+        { userID: this.zego.userID, userName: this.zego.userName },
+        { userUpdate: true }
+      )
+    },
+
+    async enterRoom(roomId) {
+      const zg = this.zg
+      if (!roomId) {
+        alert('roomId is empty')
+        return false
+      }
+
+      for (let i = 0; i < this.useLocalStreamList.length; i++) {
+        this.useLocalStreamList[i].streamID &&
+          zg.stopPlayingStream(this.useLocalStreamList[i].streamID)
+      }
+
+      await this.login(roomId)
+
+      this.loginRoom = true
+
+      console.warn('remoteVideo')
+
+      return true
+    },
     removeProductFromList(index) {
       // console.log('zzzzzzzzzzzzzzzzzzzzzzzzzzz', id)
       // console.log(this.live, 'live')
@@ -413,6 +458,42 @@ export default {
         }
       }
     },
+  },
+  async mounted() {
+    const zego = (this.zego =
+      (
+        await this.$apollo.query({
+          query: ZEGO,
+        })
+      ).data.zego || {})
+
+    this.live =
+      (
+        await this.$apollo.query({
+          query: LIVE_STREAM,
+          variables: { id: this.$route.params.id },
+          fetchPolicy: 'no-cache',
+        })
+      ).data.liveStream || {}
+    const ZegoExpressEngine =
+      require('zego-express-engine-webrtc').ZegoExpressEngine
+    const zg = (this.zg = new ZegoExpressEngine(zego.appID, zego.server))
+    zg.setLogConfig({
+      logLevel: 'error',
+      remoteLogLevel: 'info',
+      logURL: '',
+    })
+
+    zg.setDebugVerbose(false)
+    zg.setSoundLevelDelegate(true, 3000)
+
+    let loginSuc = false
+    try {
+      loginSuc = await this.enterRoom(this.$route.params.id, zego.token)
+      // loginSuc && (await this.publish());
+    } catch (error) {
+      console.error('Enter Room...', error)
+    }
   },
 }
 </script>
