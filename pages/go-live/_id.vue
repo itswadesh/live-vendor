@@ -219,28 +219,16 @@
               @click="publish($route.params.id)"
               class="flex items-center justify-center w-32 py-1 font-semibold tracking-wide transition duration-300 bg-white rounded-md shadow-md  focus:ring-2 hover:shadow focus:outline-none focus:ring-red-500"
             >
-              <img
-                src="https://img.icons8.com/color/20/000000/youtube-live.png"
-                class="block md:hidden"
-              />
-              <img
-                src="https://img.icons8.com/color/30/000000/youtube-live.png"
-                class="hidden md:block"
-              />
+              <img src="/youtube-live.png" class="block md:hidden" />
+              <img src="/youtube-live.png" class="hidden md:block" />
               <span class="ml-2 text-sm md:text-base">Publish</span>
             </button>
             <button
               @click="stop"
               class="flex items-center justify-center w-32 py-1 font-semibold tracking-wide transition duration-300 bg-white rounded-md shadow-md  hover:shadow focus:outline-none"
             >
-              <img
-                src="https://img.icons8.com/fluent/20/000000/stop-circled.png"
-                class="block md:hidden"
-              />
-              <img
-                src="https://img.icons8.com/fluent/30/000000/stop-circled.png"
-                class="hidden md:block"
-              />
+              <img src="/stop-circled.png" class="block md:hidden" />
+              <img src="/stop-circled.png" class="hidden md:block" />
               <span class="ml-2 text-sm md:text-base">Stop</span>
             </button>
             <button
@@ -248,14 +236,8 @@
               @click="leave"
               class="flex items-center justify-center w-32 py-1 font-semibold tracking-wide transition duration-300 bg-white rounded-md shadow-md  hover:shadow focus:outline-none"
             >
-              <img
-                src="https://img.icons8.com/emoji/20/000000/cross-mark-emoji.png"
-                class="block md:hidden"
-              />
-              <img
-                src="https://img.icons8.com/emoji/30/000000/cross-mark-emoji.png"
-                class="hidden md:block"
-              />
+              <img src="/cross-mark-emoji.png" class="block md:hidden" />
+              <img src="/cross-mark-emoji.png" class="hidden md:block" />
               <span class="ml-2 text-sm md:text-base">Destroy</span>
             </button>
           </div>
@@ -350,7 +332,7 @@ export default {
       )
     },
 
-    async enterRoom(roomId) {
+    async enterRoom(roomId, token) {
       const zg = this.zg
       if (!roomId) {
         alert('roomId is empty')
@@ -362,13 +344,8 @@ export default {
           zg.stopPlayingStream(this.useLocalStreamList[i].streamID)
       }
 
-      await this.login(roomId)
-
-      this.loginRoom = true
-
-      console.warn('remoteVideo')
-
-      return true
+      this.listenForEvents()
+      return (this.loginRoom = await this.login(roomId, token))
     },
     removeProductFromList(index) {
       // console.log('zzzzzzzzzzzzzzzzzzzzzzzzzzz', id)
