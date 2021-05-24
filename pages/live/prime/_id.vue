@@ -121,6 +121,7 @@ import zego from '~/shared/mixins/zego'
 import ZEGO from '~/gql/liveStream/zego.gql'
 
 export default {
+  middleware: ['isAuth'],
   data() {
     return {
       q: '',
@@ -249,7 +250,6 @@ export default {
     zg.setDebugVerbose(false)
     zg.setSoundLevelDelegate(true, 3000)
 
-    console.log('zzzzzzzzzzzzzzzzzzzzzzzzzzz', zego.token)
     let loginSuc = false
     try {
       loginSuc = await this.enterRoom(this.$route.params.id, zego.token)

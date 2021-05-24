@@ -30,6 +30,8 @@ import Sidebar from '~/components/Livenow/Sidebar.vue'
 import Livenow from '~/components/Livenow/Livenow.vue'
 import LIVE_STREAMS from '~/gql/liveStream/liveStreams.gql'
 export default {
+  middleware: ['isAuth'],
+
   components: {
     Sidebar,
     Livenow,
