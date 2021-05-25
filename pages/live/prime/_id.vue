@@ -67,18 +67,14 @@
               @click="publish($route.params.id)"
               class="flex items-center justify-center w-32 py-1 font-semibold tracking-wide bg-white rounded-md shadow-md  hover:shadow focus:outline-none"
             >
-              <img
-                src="https://img.icons8.com/color/30/000000/youtube-live.png"
-              />
+              <img src="/youtube-live.png" />
               <span class="ml-2">Publish</span>
             </button>
             <button
               @click="stop"
               class="flex items-center justify-center w-32 py-1 font-semibold tracking-wide bg-white rounded-md shadow-md  hover:shadow focus:outline-none"
             >
-              <img
-                src="https://img.icons8.com/fluent/30/000000/stop-circled.png"
-              />
+              <img src="/stop-circled.png" />
               <span class="ml-2">Stop</span>
             </button>
             <button
@@ -86,9 +82,7 @@
               @click="leave"
               class="flex items-center justify-center w-32 py-1 font-semibold tracking-wide bg-white rounded-md shadow-md  hover:shadow focus:outline-none"
             >
-              <img
-                src="https://img.icons8.com/emoji/30/000000/cross-mark-emoji.png"
-              />
+              <img src="/cross-mark-emoji.png" />
               <span class="ml-2">Destroy</span>
             </button>
           </div>
@@ -121,6 +115,7 @@ import zego from '~/shared/mixins/zego'
 import ZEGO from '~/gql/liveStream/zego.gql'
 
 export default {
+  middleware: ['isAuth'],
   data() {
     return {
       q: '',
@@ -249,7 +244,6 @@ export default {
     zg.setDebugVerbose(false)
     zg.setSoundLevelDelegate(true, 3000)
 
-    console.log('zzzzzzzzzzzzzzzzzzzzzzzzzzz', zego.token)
     let loginSuc = false
     try {
       loginSuc = await this.enterRoom(this.$route.params.id, zego.token)
