@@ -57,7 +57,8 @@
     "vue-toasted": "^1.1.28",
     "vue-youtube": "^1.4.0",
     "vuejs-countdown": "^0.2.1",
-    "vuelidate": "^0.7.6"
+    "vuelidate": "^0.7.6",
+    "zego-express-whiteboard-web": "^1.20.0"
   },
   "devDependencies": {
     "agora-rtc-sdk-ng": "^4.4.0",

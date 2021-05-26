@@ -14955,6 +14955,9 @@ vue-style-loader@^4.1.0, vue-style-loader@^4.1.3:
   version "4.1.3"
   resolved "https://registry.yarnpkg.com/vue-style-loader/-/vue-style-loader-4.1.3.tgz#6d55863a51fa757ab24e89d9371465072aa7bc35"
   integrity sha512-sFuh0xfbtpRlKfm39ss/ikqs9AbKCoXZBpHeVZ8Tx650o0k0q/YCM7FRvigtxpACezfq6af+a7JeqVTWvncqDg==
+  dependencies:
+    hash-sum "^1.0.2"
+    loader-utils "^1.0.2"
 
 vue-sweetalert2@^4.2.1:
   version "4.3.1"
@@ -15442,7 +15445,7 @@ youtube-player@^5.4.0:
     load-script "^1.0.0"
     sister "^3.0.0"
 
-zego-express-engine-webrtc@^2.6.0:
+zego-express-engine-webrtc@^2.5.0, zego-express-engine-webrtc@^2.6.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/zego-express-engine-webrtc/-/zego-express-engine-webrtc-2.6.0.tgz#934549d40845002d431c8eb6661fdfe3eec2f788"
   integrity sha512-7ySMbjECE/ZzZCjfs293K9sKoFqdLghhgYs+UA+cIl35SXDXmaV9FBU3RBve5YdpniPsot+hnkJvs7dvsXnVfA==
@@ -15460,6 +15463,13 @@ zego-express-logger@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/zego-express-logger/-/zego-express-logger-1.1.0.tgz#42c75fbb7f891f87ea3354086dcd52963b75e365"
   integrity sha512-hs1oR0PgCYhgKYl5qx0xhnXBAPV7h2UWbQ6xup3evfU2bnCIJ7PEodYchT3/ncQqDFO7mfvelDC4nXq8jlt/uA==
+
+zego-express-whiteboard-web@^1.20.0:
+  version "1.20.0"
+  resolved "https://registry.yarnpkg.com/zego-express-whiteboard-web/-/zego-express-whiteboard-web-1.20.0.tgz#3d3f97254fa0985012f296a93e798d68d1b83508"
+  integrity sha512-0RLHspjyMEChqZLYFHnqeN6JdPBFppvFxRORryIXQdwLSG8i0AQMyQmFV8cN0y+HS4TER2Xl+sg5Ccv7dniMCw==
+  dependencies:
+    zego-express-engine-webrtc "^2.5.0"
 
 zen-observable-ts@^0.8.21:
   version "0.8.21"
