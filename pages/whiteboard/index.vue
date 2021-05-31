@@ -55,7 +55,7 @@ export default {
         return;
       }
       try {
-        console.log("step 3.1 zego data is",this.zego)
+        console.log("step 3.1 zego data is",this.zego,"e")
           await zg.loginRoom(roomID,this.zego.token,
             { userID: this.zego.userID, userName: this.zego.userName },
             { maxMemberCount: 3,  userUpdate: true  }

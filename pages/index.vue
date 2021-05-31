@@ -11,7 +11,11 @@
     <nuxt-link
       class="px-4 py-2 m-4 text-white bg-green-500 rounded"
       to="/live/prime"
-      >Prime Streams</nuxt-link
+      >Prime Streams</nuxt-link>
+    <nuxt-link
+      class="px-4 py-2 m-4 text-white bg-green-500 rounded"
+      to="/whiteboard/"
+      >Whiteboard</nuxt-link
     >
   </section>
 </template>
