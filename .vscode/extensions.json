@@ -6,6 +6,6 @@
     "bradlc.vscode-tailwindcss",
     "wayou.vscode-todo-highlight",
     "octref.vetur",
-    "heybourn.headwind"
+    "dbaeumer.vscode-eslint"
   ]
 }
