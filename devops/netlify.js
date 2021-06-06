@@ -1,6 +1,6 @@
-const shell = require("shelljs");
-shell.cp("-R", "devops/_redirects", "dist/_redirects"); // netlify not working for dynamic urls
+const shell = require('shelljs')
+shell.cp('-R', 'devops/_redirects', 'dist/_redirects') // netlify not working for dynamic urls
 
 shell.exec(
-  "netlify deploy --prod --dir dist --site 898a2626-61b0-4cad-a36e-eab4d1e31222 --open"
-);
+  'netlify deploy --prod --dir dist --site d4e77195-ef61-4e2a-8b66-c78ae0eb3dde --open'
+)

@@ -13,7 +13,7 @@ const whitelistPatterns = [/(slick-+|swal2-)/]
 export default {
   server: {
     host: '0.0.0.0',
-    port: 3000,
+    port: 3300,
   },
   head: {
     title: process.env.npm_package_name || '',
@@ -31,7 +31,6 @@ export default {
   loading: { color: '#fff' },
   css: [],
   ssr: false,
-  components: true,
   plugins: [
     { src: '~/plugins/directives.js', ssr: false },
     { src: '~/plugins/filters.js', mode: 'client' },
