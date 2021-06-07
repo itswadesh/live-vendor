@@ -41,7 +41,7 @@ export default {
   },
   async mounted() {
     // 初始化音视频实例
-    console.warn('初始化音视频sdk')
+    console.warn('Initialize audio and video')
     const { appkey, uid, token } = (
       await this.$apollo.query({
         query: NETEASE_TOKEN,
@@ -57,28 +57,28 @@ export default {
     this.joinChannel(token, uid)
     //监听事件
     this.client.on('peer-online', (evt) => {
-      console.warn(`${evt.uid} 加入房间`)
+      console.warn(`${evt.uid} Join room`)
     })
 
     this.client.on('peer-leave', (evt) => {
-      console.warn(`${evt.uid} 离开房间`)
+      console.warn(`${evt.uid} Leave the room`)
       if (this.remoteStream.getId() === evt.uid) {
         this.remoteStream = null
         this.isDesc = true
-        this.desc = '对方离开房间了'
+        this.desc = 'The other party left the room'
         console.log(this.desc)
       }
     })
 
     this.client.on('stream-added', (evt) => {
       var remoteStream = evt.stream
-      console.warn('收到对方发布的订阅消息: ', remoteStream.getId())
+      console.warn('Receive a subscription message published by the other party: ', remoteStream.getId())
 
       if (
         this.remoteStream &&
         this.remoteStream.getId() !== remoteStream.getId()
       ) {
-        console.warn('房间里第三个人加入，忽略')
+        console.warn('The third person in the room joins, ignore')
         return
       } else {
         this.remoteStream = remoteStream
@@ -88,12 +88,12 @@ export default {
 
     this.client.on('stream-removed', (evt) => {
       var remoteStream = evt.stream
-      console.warn('对方停止订阅: ', remoteStream.getId())
+      console.warn('The other party stops subscribing: ', remoteStream.getId())
       remoteStream.stop()
     })
 
     this.client.on('stream-subscribed', (evt) => {
-      console.warn('收到了对端的流，准备播放')
+      console.warn('Received the opposite stream, ready to play')
       const remoteStream = evt.stream
       //用于播放对方视频画面的div节点
       this.isDesc = false
@@ -101,7 +101,7 @@ export default {
       remoteStream
         .play(div)
         .then(() => {
-          console.warn('播放视频')
+          console.warn('Play video')
           remoteStream.setRemoteRenderMode({
             // 设置视频窗口大小
             width: 160,
@@ -110,7 +110,7 @@ export default {
           })
         })
         .catch((err) => {
-          console.warn('播放对方视频失败了: ', err)
+          console.warn("Failed to play the other party's video:", err)
         })
     })
 
@@ -160,7 +160,7 @@ export default {
         console.log('Internal error, please rejoin the room')
         return
       }
-      console.info('开始加入房间: ', this.$route.query.channelName)
+      console.info('Start joining the room: ', this.$route.query.channelName)
       this.client
         .join({
           channelName: this.$route.query.channelName,
@@ -168,11 +168,11 @@ export default {
           token,
         })
         .then((data) => {
-          console.info('加入房间成功，开始初始化本地音视频流')
+          console.info('Join the room successfully, start to initialize the local audio and video stream')
           this.initLocalStream(uid)
         })
         .catch((error) => {
-          console.error('加入房间失败：', error)
+          console.error('Failed to join the room：', error)
           console.log(
             `${error}: Please check if the appkey or token is correct`
           )
@@ -199,7 +199,7 @@ export default {
       this.localStream
         .init()
         .then(() => {
-          console.warn('音视频开启完成，可以播放了')
+          console.warn('The audio and video have been turned on and can be played')
           const div = self.$refs.large
           this.localStream.play(div)
           this.localStream.setLocalRenderMode({
@@ -212,22 +212,22 @@ export default {
           this.publish()
         })
         .catch((err) => {
-          console.warn('音视频初始化失败: ', err)
-          console.log('音视频初始化失败')
+          console.warn('Audio and video initialization failed: ', err)
+          console.log('Audio and video initialization failed')
           this.localStream = null
         })
     },
     publish() {
-      console.warn('开始发布视频流')
+      console.warn('Start publishing video stream')
       //发布本地媒体给房间对端
       this.client
         .publish(this.localStream)
         .then(() => {
-          console.warn('本地 publish 成功')
+          console.warn('Local publish successfully')
         })
         .catch((err) => {
-          console.error('本地 publish 失败: ', err)
-          console.log('本地 publish 失败')
+          console.error('Local publish failed: ', err)
+          console.log('Local publish failed')
         })
     },
     subscribe() {
@@ -238,33 +238,33 @@ export default {
       this.client
         .subscribe(this.remoteStream)
         .then(() => {
-          console.warn('本地 subscribe 成功')
+          console.warn('Local subscribe succeeded')
         })
         .catch((err) => {
-          console.warn('本地 subscribe 失败: ', err)
-          console.log('订阅对方的流失败')
+          console.warn('Local subscribe failed: ', err)
+          console.log("Failed to subscribe to the other party's stream")
         })
     },
     setOrRelieveSilence() {
       const { isSilence } = this
       this.isSilence = !isSilence
       if (this.isSilence) {
-        console.warn('关闭mic')
+        console.warn('Close mic')
         this.localStream
           .close({
             type: 'audio',
           })
           .then(() => {
-            console.warn('关闭 mic sucess')
+            console.warn('Close mic success')
           })
           .catch((err) => {
-            console.warn('关闭 mic 失败: ', err)
-            console.log('关闭 mic 失败')
+            console.warn('Failed to close mic: ', err)
+            console.log('Failed to close mic')
           })
       } else {
-        console.warn('打开mic')
+        console.warn('Open mic')
         if (!this.localStream) {
-          console.log('当前不能打开mic')
+          console.log("Can't open mic currently")
           return
         }
         this.localStream
@@ -272,11 +272,11 @@ export default {
             type: 'audio',
           })
           .then(() => {
-            console.warn('打开mic sucess')
+            console.warn('Open mic success')
           })
           .catch((err) => {
-            console.warn('打开mic失败: ', err)
-            console.log('打开mic失败')
+            console.warn('Failed to open mic: ', err)
+            console.log('Failed to open mic')
           })
       }
     },
@@ -284,22 +284,22 @@ export default {
       const { isStop } = this
       this.isStop = !isStop
       if (this.isStop) {
-        console.warn('关闭摄像头')
+        console.warn('Turn off the camera')
         this.localStream
           .close({
             type: 'video',
           })
           .then(() => {
-            console.warn('关闭摄像头 sucess')
+            console.warn('Turn off the camera sucess')
           })
           .catch((err) => {
-            console.warn('关闭摄像头失败: ', err)
-            console.log('关闭摄像头失败')
+            console.warn('Failed to turn off the camera: ', err)
+            console.log('Failed to turn off the camera')
           })
       } else {
-        console.warn('打开摄像头')
+        console.warn('Turn on the camera')
         if (!this.localStream) {
-          console.log('当前不能打开camera')
+          console.log("Can't open camera currently")
           return
         }
         this.localStream
@@ -307,7 +307,7 @@ export default {
             type: 'video',
           })
           .then(() => {
-            console.warn('打开摄像头 sucess')
+            console.warn('Turn on the camera sucess')
             const div = self.$refs.large
             this.localStream.play(div)
             this.localStream.setLocalRenderMode({
@@ -318,13 +318,13 @@ export default {
             })
           })
           .catch((err) => {
-            console.warn('打开摄像头失败: ', err)
-            console.log('打开摄像头失败')
+            console.warn('Failed to open camera: ', err)
+            console.log('Failed to open camera')
           })
       }
     },
     handleOver() {
-      console.warn('离开房间')
+      console.warn('Leave the room')
       this.client.leave()
       this.returnJoin(1)
     },

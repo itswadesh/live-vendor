@@ -12,7 +12,7 @@
           ></div>
         </template>
         <div v-else class="sub-window" ref="small">
-          <span class="loading-text">等待对方加入…</span>
+          <span class="loading-text">Waiting for the other party to join</span>
         </div>
       </div>
       <div class="sub-window-wrapper">List Products here</div>
@@ -49,7 +49,7 @@ export default {
   },
   async mounted() {
     // 初始化音视频实例
-    console.warn('初始化音视频sdk')
+    console.warn('Initialize audio and video sdk')
     const { appkey, uid, token } = (
       await this.$apollo.query({
         query: NETEASE_TOKEN,
@@ -65,11 +65,11 @@ export default {
     this.joinChannel(token, uid)
     //监听事件
     this.client.on('peer-online', (evt) => {
-      console.warn(`${evt.uid} 加入房间`)
+      console.warn(`${evt.uid} Join room`)
     })
 
     this.client.on('peer-leave', (evt) => {
-      console.warn(`${evt.uid} 离开房间`)
+      console.warn(`${evt.uid} Leave the room`)
       this.remoteStreams = this.remoteStreams.filter(
         (item) => !!item.getId() && item.getId() !== evt.uid
       )
@@ -79,17 +79,17 @@ export default {
       const stream = evt.stream
       const userId = stream.getId()
       if (this.remoteStreams.some((item) => item.getId() === userId)) {
-        console.warn('收到已订阅的远端发布，需要更新', stream)
+        console.warn('Received a subscribed remote publication and needs to be updated', stream)
         this.remoteStreams = this.remoteStreams.map((item) =>
           item.getId() === userId ? stream : item
         )
         await this.subscribe(stream)
       } else if (this.remoteStreams.length < this.max - 1) {
-        console.warn('收到新的远端发布消息', stream)
+        console.warn('Receive new remote publish message', stream)
         this.remoteStreams = this.remoteStreams.concat(stream)
         await this.subscribe(stream)
       } else {
-        console.warn('房间人数已满')
+        console.warn('The room is full')
       }
     })
 
@@ -100,11 +100,11 @@ export default {
       this.remoteStreams = this.remoteStreams.map((item) =>
         item.getId() === userId ? stream : item
       )
-      console.warn('远端流停止订阅，需要更新', userId, stream)
+      console.warn('The remote stream stops subscribing and needs to be updated', userId, stream)
     })
 
     this.client.on('stream-subscribed', (evt) => {
-      console.warn('收到了对端的流，准备播放')
+      console.warn('Received the opposite stream, ready to play')
       const remoteStream = evt.stream
       //用于播放对方视频画面的div节点
       const div = this.$refs.large
@@ -115,7 +115,7 @@ export default {
       remoteStream
         .play(div)
         .then(() => {
-          console.warn('播放视频')
+          console.warn('Play video')
           remoteStream.setRemoteRenderMode({
             // 设置视频窗口大小
             width: div.clientWidth,
@@ -124,7 +124,7 @@ export default {
           })
         })
         .catch((err) => {
-          console.warn('播放对方视频失败了: ', err)
+          console.warn("Failed to play the other party's video: ", err)
         })
     })
   },
@@ -142,10 +142,10 @@ export default {
     },
     joinChannel(token, uid) {
       if (!this.client) {
-        console.log('内部错误，请重新加入房间')
+        console.log('Internal error, please rejoin the room')
         return
       }
-      console.info('开始加入房间: ', this.$route.query.channelName)
+      console.info('Start joining the room: ', this.$route.query.channelName)
       this.client
         .join({
           channelName: this.$route.query.channelName,
@@ -153,12 +153,12 @@ export default {
           token,
         })
         .then((data) => {
-          console.info('加入房间成功，开始初始化本地音视频流')
+          console.info('Join the room successfully, start to initialize the local audio and video stream')
           // this.initLocalStream(uid)
         })
         .catch((error) => {
-          console.error('加入房间失败：', error)
-          console.log(`${error}: 请检查appkey或者token是否正确`)
+          console.error('Failed to join the room', error)
+          console.log(`${error}: Please check if the appkey or token is correct`)
           this.returnJoin()
         })
     },
@@ -221,33 +221,33 @@ export default {
       this.client
         .subscribe(remoteStream)
         .then(() => {
-          console.warn('本地 subscribe 成功')
+          console.warn('Local subscribe succeeded')
         })
         .catch((err) => {
-          console.warn('本地 subscribe 失败: ', err)
-          console.log('订阅对方的流失败')
+          console.warn('Local subscribe fails: ', err)
+          console.log('Failed to subscribe to the other party's stream')
         })
     },
     setOrRelieveSilence() {
       const { isSilence } = this
       this.isSilence = !isSilence
       if (this.isSilence) {
-        console.warn('关闭mic')
+        console.warn('Close mic')
         this.localStream
           .close({
             type: 'audio',
           })
           .then(() => {
-            console.warn('关闭 mic sucess')
+            console.warn('Close mic success')
           })
           .catch((err) => {
-            console.warn('关闭 mic 失败: ', err)
-            console.log('关闭 mic 失败')
+            console.warn('Failed to close mic: ', err)
+            console.log('Failed to close mic')
           })
       } else {
-        console.warn('打开mic')
+        console.warn('Open mic')
         if (!this.localStream) {
-          console.log('当前不能打开mic')
+          console.log("Can't open mic currently")
           return
         }
         this.localStream
@@ -255,11 +255,11 @@ export default {
             type: 'audio',
           })
           .then(() => {
-            console.warn('打开mic sucess')
+            console.warn('Open mic success')
           })
           .catch((err) => {
-            console.warn('打开mic失败: ', err)
-            console.log('打开mic失败')
+            console.warn('Failed to open mic: ', err)
+            console.log('Failed to open mic')
           })
       }
     },
@@ -267,22 +267,22 @@ export default {
       const { isStop } = this
       this.isStop = !isStop
       if (this.isStop) {
-        console.warn('关闭摄像头')
+        console.warn('Turn off the camera')
         this.localStream
           .close({
             type: 'video',
           })
           .then(() => {
-            console.warn('关闭摄像头 sucess')
+            console.warn('Close camera success')
           })
           .catch((err) => {
-            console.warn('关闭摄像头失败: ', err)
-            console.log('关闭摄像头失败')
+            console.warn('Failed to turn off the camera: ', err)
+            console.log('Failed to turn off the camera')
           })
       } else {
-        console.warn('打开摄像头')
+        console.warn('Turn on the camera')
         if (!this.localStream) {
-          console.log('当前不能打开camera')
+          console.log("Can't open camera currently")
           return
         }
         this.localStream
@@ -290,7 +290,7 @@ export default {
             type: 'video',
           })
           .then(() => {
-            console.warn('打开摄像头 sucess')
+            console.warn('Open camera success')
             const div = self.$refs.large
             this.localStream.play(div)
             this.localStream.setLocalRenderMode({
@@ -301,13 +301,13 @@ export default {
             })
           })
           .catch((err) => {
-            console.warn('打开摄像头失败: ', err)
-            console.log('打开摄像头失败')
+            console.warn('Failed to open camera: ', err)
+            console.log('Failed to open camera')
           })
       }
     },
     handleOver() {
-      console.warn('离开房间')
+      console.warn('Leave the room')
       this.client.leave()
       this.returnJoin(1)
     },
