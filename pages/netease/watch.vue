@@ -225,7 +225,7 @@ export default {
         })
         .catch((err) => {
           console.warn('Local subscribe fails: ', err)
-          console.log('Failed to subscribe to the other party's stream')
+          console.log("Failed to subscribe to the other party's stream")
         })
     },
     setOrRelieveSilence() {
