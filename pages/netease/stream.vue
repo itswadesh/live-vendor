@@ -3,20 +3,44 @@
     <div class="content">
       <!--画面div-->
       <div class="main-window" ref="large"></div>
-      <!--小画面div-->
-      <div class="sub-window" ref="small">
-        <span class="loading-text" v-show="isDesc">{{ desc }}</span>
+      <div class="sub-window-wrapper">
+        <!--小画面div-->
+        <template v-if="remoteStreams.length">
+          <div
+            v-for="item in remoteStreams"
+            :key="item.getId()"
+            class="sub-window"
+            ref="small"
+            :data-uid="item.getId()"
+          ></div>
+        </template>
+        <div v-else class="sub-window" ref="small">
+          <span class="loading-text">等待对方加入…</span>
+        </div>
       </div>
     </div>
     <!--底层栏-->
     <ul class="tab-bar">
-      <li
-        :class="{ silence: true, isSilence }"
-        @click="setOrRelieveSilence"
-      ></li>
+      <li class="set-wrapper" @click="drawer = true">
+        <a href="javascript:;" class="set">配置推流</a>
+      </li>
       <li class="over" @click="handleOver"></li>
-      <li :class="{ stop: true, isStop }" @click="stopOrOpenVideo"></li>
     </ul>
+    <el-drawer title="配置推流" :visible.sync="drawer" direction="ltr">
+      <div class="pl20 mb20">
+        <span class="mr10">推流地址</span>
+        <el-input
+          style="width: 400px"
+          v-model="rtmpTasks[0].streamUrl"
+          placeholder="输入推流地址"
+        />
+      </div>
+      <div class="t-center">
+        <el-button type="primary" @click="togglePushStats">{{
+          isPushing ? '停止推流' : '开始推流'
+        }}</el-button>
+      </div>
+    </el-drawer>
   </div>
 </template>
 <script>
@@ -25,18 +49,56 @@ import * as WebRTC2 from './sdk/NIM_Web_WebRTC2_v4.0.1.js'
 // import { getToken } from './common'
 import NETEASE_TOKEN from '~/gql/liveStream/neteaseToken.gql'
 
+const pushUser = {
+  uid: null, //用户id
+  x: null, // user1 的视频布局x偏移，相对整体布局的左上角（前提是推流发布user1的视频）
+  y: null, // user1 的视频布局y偏移，相对整体布局的左上角（前提是推流发布user1的视频）
+  width: 500, // user1 的视频布局宽度（前提是推流发布user1的视频）
+  height: 360, //user1 的视频布局高度（前提是推流发布user1的视频）
+  adaption: 1, //自适应，值默认为1
+  pushAudio: true, // 推流是否发布user1 的音频
+  pushVideo: true, // 推流是否发布user1的视频
+}
+
 export default {
-  name: 'single',
   data() {
     return {
       isSilence: false,
-      isDesc: true,
       isStop: false,
-      desc: 'Waiting for the other party to enter...',
+      isPushing: false,
+      drawer: false,
       client: null,
       // localUid: Math.ceil(Math.random() * 1e5),
       localStream: null,
-      remoteStream: null,
+      remoteStreams: [],
+      max: 4,
+      //互动直播的推流任务，可以设置多个推流任务
+      rtmpTasks: [
+        {
+          taskId: Math.random().toString(36).slice(-8), //推流任务ID,string格式。taskId为推流任务的唯一标识，用于过程中增删任务操作
+          streamUrl: '',
+          record: false, //录制开关
+          layout: {
+            canvas: {
+              //整体布局大小
+              width: 1280, //整体布局宽度
+              height: 720, //整体布局高度
+              color: 16777215, //整体布局背景色（转为10进制的数，如：#FFFFFF 16进制转为10进制为 16777215）
+            },
+            users: [],
+            images: [
+              {
+                url: 'https://yx-web-nosdn.netease.im/quickhtml%2Fassets%2Fyunxin%2Fdefault%2Fother%2FLark2.jpeg', //设置背景图片
+                x: 250, // 背景图片x偏移，相对整体布局的左上角
+                y: 390, // 背景图片y偏移，相对整体布局的左上角
+                width: 480, // 背景图片宽度
+                height: 300, //背景图片高度
+                adaption: 1, //自适应，值默认为1
+              },
+            ],
+          },
+        },
+      ],
     }
   },
   async mounted() {
@@ -57,50 +119,56 @@ export default {
     this.joinChannel(token, uid)
     //监听事件
     this.client.on('peer-online', (evt) => {
-      console.warn(`${evt.uid} Join room`)
+      const uid = evt.uid
+      console.warn(`${uid} Join room`)
+      this.addRtmpTask(uid)
+      this.updateRtmpTask()
     })
 
     this.client.on('peer-leave', (evt) => {
       console.warn(`${evt.uid} Leave the room`)
-      if (this.remoteStream.getId() === evt.uid) {
-        this.remoteStream = null
-        this.isDesc = true
-        this.desc = 'The other party left the room'
-        console.log(this.desc)
-      }
+      this.remoteStreams = this.remoteStreams.filter(
+        (item) => !!item.getId() && item.getId() !== evt.uid
+      )
+      this.deleteRtmpTask(evt.uid)
+      this.updateRtmpTask()
     })
 
-    this.client.on('stream-added', (evt) => {
-      var remoteStream = evt.stream
-      console.warn(
-        'Receive a subscription message published by the other party: ',
-        remoteStream.getId()
-      )
-
-      if (
-        this.remoteStream &&
-        this.remoteStream.getId() !== remoteStream.getId()
-      ) {
-        console.warn('The third person in the room joins, ignore')
-        return
+    this.client.on('stream-added', async (evt) => {
+      const stream = evt.stream
+      const userId = stream.getId()
+      if (this.remoteStreams.some((item) => item.getId() === userId)) {
+        console.warn('收到已订阅的远端发布，需要更新', stream)
+        this.remoteStreams = this.remoteStreams.map((item) =>
+          item.getId() === userId ? stream : item
+        )
+        await this.subscribe(stream)
+      } else if (this.remoteStreams.length < this.max - 1) {
+        console.warn('收到新的远端发布消息', stream)
+        this.remoteStreams = this.remoteStreams.concat(stream)
+        await this.subscribe(stream)
       } else {
-        this.remoteStream = remoteStream
+        console.warn('房间人数已满')
       }
-      this.subscribe(remoteStream)
     })
 
     this.client.on('stream-removed', (evt) => {
-      var remoteStream = evt.stream
-      console.warn('The other party stops subscribing: ', remoteStream.getId())
-      remoteStream.stop()
+      const stream = evt.stream
+      const userId = stream.getId()
+      stream.stop()
+      this.remoteStreams = this.remoteStreams.map((item) =>
+        item.getId() === userId ? stream : item
+      )
+      console.warn('远端流停止订阅，需要更新', userId, stream)
     })
 
     this.client.on('stream-subscribed', (evt) => {
       console.warn('Received the opposite stream, ready to play')
       const remoteStream = evt.stream
       //用于播放对方视频画面的div节点
-      this.isDesc = false
-      const div = this.$refs.small
+      const div = [...this.$refs.small].find(
+        (item) => Number(item.dataset.uid) === Number(remoteStream.getId())
+      )
       remoteStream
         .play(div)
         .then(() => {
@@ -117,12 +185,25 @@ export default {
         })
     })
 
+    // 监听推流任务的状态
+    this.client.on('rtmp-state', (data) => {
+      console.warn('=====互动直播状况：', data)
+      console.warn(`互动直播推流任务：${data.task_id}，的状态：${data.state}`)
+      if (data.state === 505) {
+        console.warn('该推流任务正在推流中，状态正常')
+      } else if (data.state === 506) {
+        console.warn('该推流任务推流失败了')
+      } else if (data.state === 511) {
+        console.warn('该推流任务推流结束了')
+      }
+    })
+
     // this.getToken()
     //   .then((token) => {
     //     this.joinChannel(token)
     //   })
     //   .catch((e) => {
-    //     console.log(e)
+    //     message(e)
     //     console.error(e)
     //   })
   },
@@ -151,10 +232,12 @@ export default {
     //   )
     // },
     returnJoin(time = 2000) {
-      console.log('returnJoin.........')
       // setTimeout(() => {
       //   this.$router.push({
       //     path: '/',
+      //     query: {
+      //       path: 'push',
+      //     },
       //   })
       // }, time)
     },
@@ -168,6 +251,9 @@ export default {
         .join({
           channelName: this.$route.query.channelName,
           uid,
+          joinChannelLiveConfig: {
+            liveEnable: true, // 开启直播，只有开启直播才能开启推流功能
+          },
           token,
         })
         .then((data) => {
@@ -216,7 +302,7 @@ export default {
             cut: true, // 是否裁剪
           })
           // 发布
-          this.publish()
+          this.publish(uid)
         })
         .catch((err) => {
           console.warn('Audio and video initialization failed: ', err)
@@ -224,12 +310,13 @@ export default {
           this.localStream = null
         })
     },
-    publish() {
+    publish(uid) {
       console.warn('Start publishing video stream')
       //发布本地媒体给房间对端
       this.client
         .publish(this.localStream)
         .then(() => {
+          this.addRtmpTask(uid)
           console.warn('Local publish successfully')
         })
         .catch((err) => {
@@ -237,13 +324,13 @@ export default {
           console.log('Local publish failed')
         })
     },
-    subscribe() {
-      this.remoteStream.setSubscribeConfig({
+    subscribe(remoteStream) {
+      remoteStream.setSubscribeConfig({
         audio: true,
         video: true,
       })
       this.client
-        .subscribe(this.remoteStream)
+        .subscribe(remoteStream)
         .then(() => {
           console.warn('Local subscribe succeeded')
         })
@@ -252,77 +339,73 @@ export default {
           console.log("Failed to subscribe to the other party's stream")
         })
     },
-    setOrRelieveSilence() {
-      const { isSilence } = this
-      this.isSilence = !isSilence
-      if (this.isSilence) {
-        console.warn('Close mic')
-        this.localStream
-          .close({
-            type: 'audio',
-          })
-          .then(() => {
-            console.warn('Close mic success')
-          })
-          .catch((err) => {
-            console.warn('Failed to close mic: ', err)
-            console.log('Failed to close mic')
-          })
-      } else {
-        console.warn('Open mic')
-        if (!this.localStream) {
-          console.log("Can't open mic currently")
-          return
-        }
-        this.localStream
-          .open({
-            type: 'audio',
-          })
-          .then(() => {
-            console.warn('Open mic success')
-          })
-          .catch((err) => {
-            console.warn('Failed to open mic: ', err)
-            console.log('Failed to open mic')
-          })
-      }
+    addRtmpTask(uid) {
+      // 最多只显示两人
+      const length = this.rtmpTasks[0].layout.users.length
+      if (length >= 2) return
+      this.rtmpTasks[0].layout.users.push({
+        ...pushUser,
+        uid: Number(uid),
+        x: length ? 550 : 0,
+        y: 0,
+      })
     },
-    stopOrOpenVideo() {
-      const { isStop } = this
-      this.isStop = !isStop
-      if (this.isStop) {
-        console.warn('Turn off the camera')
-        this.localStream
-          .close({
-            type: 'video',
+    deleteRtmpTask(uid) {
+      const leftUsers = this.rtmpTasks[0].layout.users.filter(
+        (item) => item.uid !== Number(uid)
+      )
+      leftUsers[0].x = 0
+      this.rtmpTasks[0].layout.users = leftUsers
+    },
+    updateRtmpTask() {
+      if (!this.isPushing) return
+      if (!this.client) {
+        throw Error('内部错误，请重新加入房间')
+      }
+      console.log(this.rtmpTasks)
+      this.client
+        .updateTasks({
+          rtmpTasks: this.rtmpTasks,
+        })
+        .then(() => {
+          console.warn('Open mic success')
+        })
+        .catch((err) => {
+          console.warn('Failed to open mic: ', err)
+          console.log('Failed to open mic')
+        })
+    },
+    togglePushStats() {
+      if (!this.client) {
+        throw Error('内部错误，请重新加入房间')
+      }
+      console.log(this.rtmpTasks)
+      if (this.isPushing) {
+        this.client
+          .deleteTasks({
+            taskIds: this.rtmpTasks.map((item) => item.taskId), //可以同时删除多个推流任务
           })
           .then(() => {
             console.warn('Turn off the camera sucess')
+            this.isPushing = false
           })
-          .catch((err) => {
+          .catch((error) => {
             console.warn('Failed to turn off the camera: ', err)
             console.log('Failed to turn off the camera')
           })
       } else {
         console.warn('Turn on the camera')
-        if (!this.localStream) {
+        if (!this.rtmpTasks[0].streamUrl) {
           console.log("Can't open camera currently")
           return
         }
-        this.localStream
-          .open({
-            type: 'video',
+        this.client
+          .addTasks({
+            rtmpTasks: this.rtmpTasks,
           })
           .then(() => {
+            this.isPushing = true
             console.warn('Turn on the camera sucess')
-            const div = self.$refs.large
-            this.localStream.play(div)
-            this.localStream.setLocalRenderMode({
-              // 设置视频窗口大小
-              width: div.clientWidth,
-              height: div.clientHeight,
-              cut: true, // 是否裁剪
-            })
           })
           .catch((err) => {
             console.warn('Failed to open camera: ', err)
@@ -345,109 +428,167 @@ export default {
   background-image: linear-gradient(179deg, #141417 0%, #181824 100%);
   display: flex;
   flex-direction: column;
-}
-.wrapper .content {
-  flex: 1;
-  position: relative;
-}
-.wrapper .content .main-window {
-  height: 100%;
-  width: 67vh;
-  margin: 0 auto;
-  background: #25252d;
-}
-.wrapper .content .sub-window {
-  width: 165px;
-  height: 95px;
-  background: #25252d;
-  position: absolute;
-  z-index: 9;
-  right: 16px;
-  top: 16px;
-  border: 1px solid #ffffff;
-}
-.wrapper .content .sub-window .loading-text {
-  display: block;
-  width: 100%;
-  text-align: center;
-  line-height: 90px;
-  font-size: 12px;
-  color: #fff;
-  font-weight: 400;
-}
-.wrapper .tab-bar {
-  height: 54px;
-  background-image: linear-gradient(180deg, #292933 7%, #212129 100%);
-  box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.3);
-  list-style: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #fff;
-}
-.wrapper .tab-bar li {
-  height: 54px;
-  width: 125px;
-  cursor: pointer;
-}
-.wrapper .tab-bar li.silence {
-  background: url('/live-icons/silence.png') no-repeat center;
-  background-size: 60px 54px;
-}
-.wrapper .tab-bar li.silence:hover {
-  background: url('/live-icons/silence-hover.png') no-repeat center;
-  background-size: 60px 54px;
-}
-.wrapper .tab-bar li.silence:active {
-  background: url('/live-icons/silence-click.png') no-repeat center;
-  background-size: 60px 54px;
-}
-.wrapper .tab-bar li.silence.isSilence {
-  background: url('/live-icons/relieve-silence.png') no-repeat center;
-  background-size: 60px 54px;
-}
-.wrapper .tab-bar li.silence.isSilence:hover {
-  background: url('/live-icons/relieve-silence-hover.png') no-repeat center;
-  background-size: 60px 54px;
-}
-.wrapper .tab-bar li.silence.isSilence:active {
-  background: url('/live-icons/relieve-silence-click.png') no-repeat center;
-  background-size: 60px 54px;
-}
-.wrapper .tab-bar li.over {
-  background: url('/live-icons/over.png') no-repeat center;
-  background-size: 68px 36px;
-}
-.wrapper .tab-bar li.over:hover {
-  background: url('/live-icons/over-hover.png') no-repeat center;
-  background-size: 68px 36px;
-}
-.wrapper .tab-bar li.over:active {
-  background: url('/live-icons/over-click.png') no-repeat center;
-  background-size: 68px 36px;
-}
-.wrapper .tab-bar li.stop {
-  background: url('/live-icons/stop.png') no-repeat center;
-  background-size: 60px 54px;
-}
-.wrapper .tab-bar li.stop:hover {
-  background: url('/live-icons/stop-hover.png') no-repeat center;
-  background-size: 60px 54px;
-}
-.wrapper .tab-bar li.stop:active {
-  background: url('/live-icons/stop-click.png') no-repeat center;
-  background-size: 60px 54px;
-}
-.wrapper .tab-bar li.stop.isStop {
-  background: url('/live-icons/open.png') no-repeat center;
-  background-size: 60px 54px;
-}
-.wrapper .tab-bar li.stop.isStop:hover {
-  background: url('/live-icons/open-hover.png') no-repeat center;
-  background-size: 60px 54px;
-}
-.wrapper .tab-bar li.stop.isStop:active {
-  background: url('/live-icons/open-click.png') no-repeat center;
-  background-size: 60px 54px;
+
+  .content {
+    flex: 1;
+    display: flex;
+    position: relative;
+
+    .main-window {
+      height: 100%;
+      width: 67vh;
+      //width: 37vw;
+      //width: 427px;
+      margin: 0 auto;
+      background: #25252d;
+    }
+
+    .sub-window-wrapper {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 9;
+      width: 165px;
+    }
+
+    .sub-window {
+      background: #25252d;
+      border: 1px solid #ffffff;
+      margin-bottom: 20px;
+
+      .loading-text {
+        display: block;
+        width: 100%;
+        text-align: center;
+        line-height: 90px;
+        font-size: 12px;
+        color: #fff;
+        font-weight: 400;
+      }
+    }
+  }
+
+  .tab-bar {
+    height: 54px;
+    background-image: linear-gradient(180deg, #292933 7%, #212129 100%);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.3);
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+
+    li {
+      height: 54px;
+      width: 125px;
+      cursor: pointer;
+
+      &.set-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &:hover {
+          background-color: #18181d;
+        }
+
+        .set {
+          background-color: #2a6af2;
+          color: #fff;
+          display: inline-block;
+          width: 68px;
+          height: 36px;
+          text-align: center;
+          line-height: 36px;
+          font-size: 12px;
+          text-decoration: none;
+          font-weight: 500;
+          border-radius: 100px;
+        }
+      }
+
+      //静音
+      &.silence {
+        background: url('/live-icons/silence.png') no-repeat center;
+        background-size: 60px 54px;
+
+        &:hover {
+          background: url('/live-icons/silence-hover.png') no-repeat center;
+          background-size: 60px 54px;
+        }
+
+        &:active {
+          background: url('/live-icons/silence-click.png') no-repeat center;
+          background-size: 60px 54px;
+        }
+
+        &.isSilence {
+          //已经开启静音
+          background: url('/live-icons/relieve-silence.png') no-repeat center;
+          background-size: 60px 54px;
+
+          &:hover {
+            background: url('/live-icons/relieve-silence-hover.png') no-repeat
+              center;
+            background-size: 60px 54px;
+          }
+
+          &:active {
+            background: url('/live-icons/relieve-silence-click.png') no-repeat
+              center;
+            background-size: 60px 54px;
+          }
+        }
+      }
+
+      //结束按钮
+      &.over {
+        background: url('/live-icons/over.png') no-repeat center;
+        background-size: 68px 36px;
+
+        &:hover {
+          background: url('/live-icons/over-hover.png') no-repeat center;
+          background-size: 68px 36px;
+        }
+
+        &:active {
+          background: url('/live-icons/over-click.png') no-repeat center;
+          background-size: 68px 36px;
+        }
+      }
+
+      // 停止按钮
+      &.stop {
+        background: url('/live-icons/stop.png') no-repeat center;
+        background-size: 60px 54px;
+
+        &:hover {
+          background: url('/live-icons/stop-hover.png') no-repeat center;
+          background-size: 60px 54px;
+        }
+
+        &:active {
+          background: url('/live-icons/stop-click.png') no-repeat center;
+          background-size: 60px 54px;
+        }
+
+        //已经是停止状态
+        &.isStop {
+          background: url('/live-icons/open.png') no-repeat center;
+          background-size: 60px 54px;
+
+          &:hover {
+            background: url('/live-icons/open-hover.png') no-repeat center;
+            background-size: 60px 54px;
+          }
+
+          &:active {
+            background: url('/live-icons/open-click.png') no-repeat center;
+            background-size: 60px 54px;
+          }
+        }
+      }
+    }
+  }
 }
 </style>
