@@ -15,29 +15,29 @@
           ></div>
         </template>
         <div v-else class="sub-window" ref="small">
-          <span class="loading-text">等待对方加入…</span>
+          <span class="loading-text">Waiting for the other party to join...</span>
         </div>
       </div>
     </div>
     <!--底层栏-->
     <ul class="tab-bar">
       <li class="set-wrapper" @click="drawer = true">
-        <a href="javascript:;" class="set">配置推流</a>
+        <a href="javascript:;" class="set">Configure push</a>
       </li>
       <li class="over" @click="handleOver"></li>
     </ul>
-    <el-drawer title="配置推流" :visible.sync="drawer" direction="ltr">
+    <el-drawer title="Configure push" :visible.sync="drawer" direction="ltr">
       <div class="pl20 mb20">
-        <span class="mr10">推流地址</span>
+        <span class="mr10">Push stream address</span>
         <el-input
           style="width: 400px"
           v-model="rtmpTasks[0].streamUrl"
-          placeholder="输入推流地址"
+          placeholder="Enter the push address"
         />
       </div>
       <div class="t-center">
         <el-button type="primary" @click="togglePushStats">{{
-          isPushing ? '停止推流' : '开始推流'
+          isPushing ? 'Stop streaming' : 'Start streaming'
         }}</el-button>
       </div>
     </el-drawer>
@@ -138,17 +138,17 @@ export default {
       const stream = evt.stream
       const userId = stream.getId()
       if (this.remoteStreams.some((item) => item.getId() === userId)) {
-        console.warn('收到已订阅的远端发布，需要更新', stream)
+        console.warn('Received a subscribed remote publication and needs to be updated', stream)
         this.remoteStreams = this.remoteStreams.map((item) =>
           item.getId() === userId ? stream : item
         )
         await this.subscribe(stream)
       } else if (this.remoteStreams.length < this.max - 1) {
-        console.warn('收到新的远端发布消息', stream)
+        console.warn('Receive new remote publish message', stream)
         this.remoteStreams = this.remoteStreams.concat(stream)
         await this.subscribe(stream)
       } else {
-        console.warn('房间人数已满')
+        console.warn('The room is full')
       }
     })
 
@@ -159,7 +159,7 @@ export default {
       this.remoteStreams = this.remoteStreams.map((item) =>
         item.getId() === userId ? stream : item
       )
-      console.warn('远端流停止订阅，需要更新', userId, stream)
+      console.warn('The remote stream stops subscribing and needs to be updated', userId, stream)
     })
 
     this.client.on('stream-subscribed', (evt) => {
@@ -187,14 +187,14 @@ export default {
 
     // 监听推流任务的状态
     this.client.on('rtmp-state', (data) => {
-      console.warn('=====互动直播状况：', data)
-      console.warn(`互动直播推流任务：${data.task_id}，的状态：${data.state}`)
+      console.warn('===== Interactive live broadcast status：', data)
+      console.warn(`Interactive live streaming task：${data.task_id}，status：${data.state}`)
       if (data.state === 505) {
-        console.warn('该推流任务正在推流中，状态正常')
+        console.warn('The push task is in the process of pushing, and the status is normal')
       } else if (data.state === 506) {
-        console.warn('该推流任务推流失败了')
+        console.warn('The push task failed to push the stream')
       } else if (data.state === 511) {
-        console.warn('该推流任务推流结束了')
+        console.warn('The push flow task is over')
       }
     })
 
@@ -312,7 +312,7 @@ export default {
     },
     publish(uid) {
       console.warn('Start publishing video stream')
-      //发布本地媒体给房间对端
+      //Publish local media to the peer end of the room
       this.client
         .publish(this.localStream)
         .then(() => {
@@ -360,7 +360,7 @@ export default {
     updateRtmpTask() {
       if (!this.isPushing) return
       if (!this.client) {
-        throw Error('内部错误，请重新加入房间')
+        throw Error('Internal error, please rejoin the room')
       }
       console.log(this.rtmpTasks)
       this.client
@@ -377,7 +377,7 @@ export default {
     },
     togglePushStats() {
       if (!this.client) {
-        throw Error('内部错误，请重新加入房间')
+        throw Error('Internal error, please rejoin the room')
       }
       console.log(this.rtmpTasks)
       if (this.isPushing) {
