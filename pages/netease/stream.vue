@@ -15,7 +15,9 @@
           ></div>
         </template>
         <div v-else class="sub-window" ref="small">
-          <span class="loading-text">Waiting for the other party to join...</span>
+          <span class="loading-text">
+            Waiting for the other party to join...
+          </span>
         </div>
       </div>
     </div>
@@ -36,9 +38,9 @@
         />
       </div>
       <div class="t-center">
-        <el-button type="primary" @click="togglePushStats">{{
-          isPushing ? 'Stop streaming' : 'Start streaming'
-        }}</el-button>
+        <el-button type="primary" @click="togglePushStats">
+          {{ isPushing ? 'Stop streaming' : 'Start streaming' }}
+        </el-button>
       </div>
     </el-drawer>
   </div>
@@ -138,7 +140,10 @@ export default {
       const stream = evt.stream
       const userId = stream.getId()
       if (this.remoteStreams.some((item) => item.getId() === userId)) {
-        console.warn('Received a subscribed remote publication and needs to be updated', stream)
+        console.warn(
+          'Received a subscribed remote publication and needs to be updated',
+          stream
+        )
         this.remoteStreams = this.remoteStreams.map((item) =>
           item.getId() === userId ? stream : item
         )
@@ -159,11 +164,15 @@ export default {
       this.remoteStreams = this.remoteStreams.map((item) =>
         item.getId() === userId ? stream : item
       )
-      console.warn('The remote stream stops subscribing and needs to be updated', userId, stream)
+      console.warn(
+        'The remote stream stops subscribing and needs to be updated',
+        userId,
+        stream
+      )
     })
 
     this.client.on('stream-subscribed', (evt) => {
-      console.warn('Received the opposite stream, ready to play')
+      console.warn('Received the opposite side stream, ready to play')
       const remoteStream = evt.stream
       //用于播放对方视频画面的div节点
       const div = [...this.$refs.small].find(
@@ -188,9 +197,13 @@ export default {
     // 监听推流任务的状态
     this.client.on('rtmp-state', (data) => {
       console.warn('===== Interactive live broadcast status：', data)
-      console.warn(`Interactive live streaming task：${data.task_id}，status：${data.state}`)
+      console.warn(
+        `Interactive live streaming task：${data.task_id}，status：${data.state}`
+      )
       if (data.state === 505) {
-        console.warn('The push task is in the process of pushing, and the status is normal')
+        console.warn(
+          'The push task is in the process of pushing, and the status is normal'
+        )
       } else if (data.state === 506) {
         console.warn('The push task failed to push the stream')
       } else if (data.state === 511) {
