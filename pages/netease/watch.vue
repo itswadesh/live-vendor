@@ -15,7 +15,9 @@
           <span class="loading-text">Waiting for the other party to join</span>
         </div>
       </div>
-      <div class="sub-window-wrapper">List Products here</div>
+      <div class="sub-window-wrapper text-white" v-if="liveStream">
+        <h2>{{ liveStream.title }}</h2>
+      </div>
     </div>
     <!--底层栏-->
     <ul class="tab-bar">
@@ -26,6 +28,121 @@
       <li class="over" @click="handleOver"></li>
       <li :class="{ stop: true, isStop }" @click="stopOrOpenVideo"></li>
     </ul>
+    <div class="" v-if="liveStream">
+      <h2>{{ liveStream.title }}</h2>
+      <div
+        class="
+          flex flex-wrap
+          items-center
+          justify-center
+          bg-white
+          my-7
+          products
+        "
+      >
+        <a
+          :href="`${REFERRER_URL}/${p.slug}?id=${p.id}`"
+          target="_blank"
+          v-for="p in liveStream.products"
+          :key="p.id"
+          class="
+            relative
+            m-1
+            bg-white
+            border-2 border-gray-300
+            h-36
+            group
+            w-36
+            hover:border-blue-500
+          "
+        >
+          <img v-lazy="p.img" alt="" class="h-full w-full object-cover" />
+          <div class="absolute bottom-0 w-full">
+            <p
+              class="
+                text-xs text-black
+                h-10
+                m-1
+                flex
+                frosted
+                text-center
+                justify-center
+                items-center
+                px-1
+              "
+            >
+              {{ p.name }}
+            </p>
+          </div>
+          <!-- <a
+                class="
+                  absolute
+                  inset-0
+                  z-10
+                  hidden
+                  bg-gray-900
+                  cursor-default
+                  transitionstyle
+                  margin
+                  group-hover:block
+                  bg-opacity-60
+                "
+              >
+                <!-- v-if="showDeleteBtnIndex == null"
+                  @click="deleteImage(i)" -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="
+              w-6
+              h-6
+              m-1
+              ml-auto
+              text-gray-100
+              transform
+              cursor-pointer
+              hover:scale-95
+            "
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <p
+            class="
+              mt-8
+              text-sm
+              font-semibold
+              text-center text-gray-100
+              transform
+              cursor-pointer
+              hover:scale-95
+            "
+          >
+            Click to add
+          </p>
+          <nuxt-link to="/live">
+            <p
+              class="
+                mt-8
+                text-sm
+                font-semibold
+                text-center text-gray-100
+                transform
+                cursor-pointer
+                hover:scale-95
+              "
+            >
+              View
+            </p>
+          </nuxt-link>
+        </a>
+        -->
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -34,8 +151,9 @@ import * as WebRTC2 from './sdk/NIM_Web_WebRTC2_v4.0.1.js'
 // import config from '../../../config'
 // import { getToken } from '../../common'
 import NETEASE_TOKEN from '~/gql/liveStream/neteaseToken.gql'
+import LIVE_STREAM from '~/gql/liveStream/liveStream.gql'
 import CHATS from '~/gql/im/chats.gql'
-
+const REFERRER_URL = 'https://next.anne.biz'
 export default {
   data() {
     return {
@@ -47,6 +165,8 @@ export default {
       remoteStreams: [],
       max: 20,
       chats: null,
+      liveStream: null,
+      REFERRER_URL,
     }
   },
   apollo: {
@@ -63,6 +183,19 @@ export default {
         },
       },
     },
+  },
+  async created() {
+    try {
+      this.liveStream = (
+        await this.$apollo.query({
+          query: LIVE_STREAM,
+          variables: { id: this.$route.query.channelName },
+          fetchPolicy: 'no-cache',
+        })
+      ).data.liveStream
+    } catch (e) {
+      console.log('liveStream ERR::: ', e.toString())
+    }
   },
   async mounted() {
     // 初始化音视频实例
