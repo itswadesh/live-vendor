@@ -20,7 +20,8 @@
   </div>
 </template>
 <script>
-import * as WebRTC2 from './sdk/NIM_Web_WebRTC2_v4.0.1.js'
+import * as WebRTC2 from '~/assets/js/netease/NIM_Web_WebRTC2_v4.0.1.js'
+// import * as WebRTC2 from './sdk/NIM_Web_WebRTC2_v4.0.1.js'
 // import config from './config'
 // import { getToken } from './common'
 import NETEASE_TOKEN from '~/gql/liveStream/neteaseToken.gql'
@@ -72,7 +73,10 @@ export default {
 
     this.client.on('stream-added', (evt) => {
       var remoteStream = evt.stream
-      console.warn('Receive a subscription message published by the other party: ', remoteStream.getId())
+      console.warn(
+        'Receive a subscription message published by the other party: ',
+        remoteStream.getId()
+      )
 
       if (
         this.remoteStream &&
@@ -168,7 +172,9 @@ export default {
           token,
         })
         .then((data) => {
-          console.info('Join the room successfully, start to initialize the local audio and video stream')
+          console.info(
+            'Join the room successfully, start to initialize the local audio and video stream'
+          )
           this.initLocalStream(uid)
         })
         .catch((error) => {
@@ -199,7 +205,9 @@ export default {
       this.localStream
         .init()
         .then(() => {
-          console.warn('The audio and video have been turned on and can be played')
+          console.warn(
+            'The audio and video have been turned on and can be played'
+          )
           const div = self.$refs.large
           this.localStream.play(div)
           this.localStream.setLocalRenderMode({

@@ -6,17 +6,19 @@
 </template>
 
 <script>
+import LoginEmailUserLogin from '~/components/Login/Email/UserLogin'
 import OtpLogin from '~/components/Login/Mobile/OtpLogin'
 import { mapGetters } from 'vuex'
 export default {
-   head() {     
-    return {       
-      title: 'Login',     
-      }   
+  head() {
+    return {
+      title: 'Login',
+    }
   },
-  middleware:'isGuest',
+  middleware: 'isGuest',
   components: {
     OtpLogin,
+    LoginEmailUserLogin,
   },
   async asyncData({ params, app, store }) {
     const { title, keywords, description } = store.state.settings || {} // err = null

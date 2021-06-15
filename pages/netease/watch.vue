@@ -1,8 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="content">
-      <!--画面div-->
-      <div class="h-screen w-full" ref="large">
+      <div class="w-full" ref="large">
         <template v-if="remoteStreams.length">
           <div
             v-for="item in remoteStreams"
@@ -19,7 +18,6 @@
         <h2>{{ liveStream.title }}</h2>
       </div>
     </div>
-    <!--底层栏-->
     <ul class="tab-bar">
       <li
         :class="{ silence: true, isSilence }"
@@ -74,22 +72,6 @@
               {{ p.name }}
             </p>
           </div>
-          <!-- <a
-                class="
-                  absolute
-                  inset-0
-                  z-10
-                  hidden
-                  bg-gray-900
-                  cursor-default
-                  transitionstyle
-                  margin
-                  group-hover:block
-                  bg-opacity-60
-                "
-              >
-                <!-- v-if="showDeleteBtnIndex == null"
-                  @click="deleteImage(i)" -->
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="
@@ -140,21 +122,23 @@
             </p>
           </nuxt-link>
         </a>
-        -->
       </div>
     </div>
+    <Chats
+      :channel="$route.query.channelName"
+      class="fixed bottom-0 left-0 mb-16 ml-2"
+    />
   </div>
 </template>
 <script>
-// import { console.log } from '../../components/console.log'
-import * as WebRTC2 from './sdk/NIM_Web_WebRTC2_v4.0.1.js'
-// import config from '../../../config'
-// import { getToken } from '../../common'
+import * as WebRTC2 from '~/assets/js/netease/NIM_Web_WebRTC2_v4.0.1.js'
 import NETEASE_TOKEN from '~/gql/liveStream/neteaseToken.gql'
 import LIVE_STREAM from '~/gql/liveStream/liveStream.gql'
-import CHATS from '~/gql/im/chats.gql'
-const REFERRER_URL = 'https://next.anne.biz'
+import Chats from '~/components/Chats.vue'
+import { REFERRER_URL } from '~/config'
+
 export default {
+  components: { Chats },
   data() {
     return {
       isSilence: false,
@@ -164,25 +148,9 @@ export default {
       localStream: null,
       remoteStreams: [],
       max: 20,
-      chats: null,
       liveStream: null,
       REFERRER_URL,
     }
-  },
-  apollo: {
-    // Subscriptions
-    $subscribe: {
-      // When a user is added
-      online_users: {
-        query: CHATS,
-        // Result hook
-        result(data) {
-          console.log('zzzzzzzzzzzzzzzzzzzzzzzzzzz', data)
-          // Let's update the local data
-          this.chats = data.chats.data
-        },
-      },
-    },
   },
   async created() {
     try {

@@ -12,6 +12,7 @@ export const KEYWORDS =
 export const HOST = 'https://www.litekart.in'
 export const sharingLogo = 'https://randomuser.me/api/portraits/women/17.jpg'
 export const { WEBSITE_NAME = 'LitTekart' } = process.env
+export const REFERRER_URL = 'https://next.anne.biz'
 export const head = {
   titleTemplate: '%s - ' + WEBSITE_NAME,
   htmlAttrs: { lang: 'en' },

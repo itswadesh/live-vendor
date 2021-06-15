@@ -158,16 +158,18 @@
         -->
       </div>
     </div>
+    <Chats
+      :channel="$route.query.channelName"
+      class="fixed bottom-0 left-0 mb-16 ml-2"
+    />
   </div>
 </template>
 <script>
-import * as WebRTC2 from './sdk/NIM_Web_WebRTC2_v4.0.1.js'
-// import config from './config'
-// import { getToken } from './common'
+import * as WebRTC2 from '~/assets/js/netease/NIM_Web_WebRTC2_v4.0.1.js'
 import NETEASE_TOKEN from '~/gql/liveStream/neteaseToken.gql'
 import LIVE_STREAM from '~/gql/liveStream/liveStream.gql'
-import CHATS from '~/gql/im/chats.gql'
-const REFERRER_URL = 'https://next.anne.biz'
+import Chats from '~/components/Chats.vue'
+import { REFERRER_URL } from '~/config'
 
 const pushUser = {
   uid: null, //用户id
@@ -223,20 +225,8 @@ export default {
       ],
     }
   },
-  apollo: {
-    // Subscriptions
-    $subscribe: {
-      // When a user is added
-      online_users: {
-        query: CHATS,
-        // Result hook
-        result(data) {
-          console.log('zzzzzzzzzzzzzzzzzzzzzzzzzzz', data)
-          // Let's update the local data
-          this.chats = data.chats.data
-        },
-      },
-    },
+  components: {
+    Chats,
   },
   async created() {
     try {

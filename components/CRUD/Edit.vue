@@ -3,7 +3,16 @@
     <div class="flex mx-8 my-10 text-xs">
       <div class="w-96">
         <div
-          class="flex items-center justify-between px-4 py-2 mb-5 text-black bg-blue-500"
+          class="
+            flex
+            items-center
+            justify-between
+            px-4
+            py-2
+            mb-5
+            text-black
+            bg-blue-500
+          "
         >
           <div v-if="id === 'new'" class="text-white">
             Add &nbsp;{{ heading | titlecase }}
@@ -337,7 +346,20 @@
           <div>
             <button
               type="submit"
-              class="w-full py-2 my-5 font-semibold tracking-wide text-white uppercase rounded-md shadow-md bg-accent-500 hover:bg-accent-700 focus:outline-none"
+              class="
+                w-full
+                py-2
+                my-5
+                font-semibold
+                tracking-wide
+                text-white
+                uppercase
+                rounded-md
+                shadow-md
+                bg-accent-500
+                hover:bg-accent-700
+                focus:outline-none
+              "
               :disabled="!valid"
             >
               <span>save</span>
@@ -351,7 +373,6 @@
 <script>
 import Submit from '~/shared/components/ui/Submit'
 import ImageUpload from '~/components/ImageUpload'
-import Filter from '~/plugins/filters'
 import VueCtkDateTimePicker from 'vue-ctk-date-time-picker'
 import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css'
 import moment from 'moment'
