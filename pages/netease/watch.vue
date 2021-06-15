@@ -138,6 +138,7 @@ import Chats from '~/components/Chats.vue'
 import { REFERRER_URL } from '~/config'
 
 export default {
+  middleware: ['isAuth'],
   components: { Chats },
   data() {
     return {

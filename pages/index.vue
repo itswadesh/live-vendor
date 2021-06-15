@@ -44,6 +44,7 @@ import Heading from '~/components/Help/Heading'
 import Box from '~/components/Help/Box'
 import Account3 from '~/components/Help/Account3'
 export default {
+  middleware: ['isAuth'],
   components: {
     Heading,
     Account3,

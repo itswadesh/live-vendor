@@ -183,6 +183,7 @@ const pushUser = {
 }
 
 export default {
+  middleware: ['isAuth'],
   data() {
     return {
       liveStream: null,
