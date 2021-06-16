@@ -1,4 +1,4 @@
-/graphql  https://tapi.litekart.in/graphql  200
-/api/*  https://tapi.litekart.in/api/:splat  200
-/images/*  https://tapi.litekart.in/images/:splat  200
+/graphql  https://next-api.anne.biz/graphql  200
+/api/*  https://next-api.anne.biz/api/:splat  200
+/images/*  https://next-api.anne.biz/images/:splat  200
 /* /index.html 200

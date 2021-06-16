@@ -7,13 +7,19 @@
     > -->
     <nuxt-link
       class="px-4 py-2 m-4 text-white bg-red-500 rounded"
-      to="/netease/?channelName=11111"
+      to="/netease/?channelName=misiki"
     >
       Netease 1-1
     </nuxt-link>
     <nuxt-link
       class="px-4 py-2 m-4 text-white bg-red-500 rounded"
-      to="/netease/watch?channelName=11111"
+      to="/netease/stream?channelName=misiki"
+    >
+      Netease Go Live
+    </nuxt-link>
+    <nuxt-link
+      class="px-4 py-2 m-4 text-white bg-red-500 rounded"
+      to="/netease/watch?channelName=misiki"
     >
       Netease Watch
     </nuxt-link>
@@ -38,6 +44,7 @@ import Heading from '~/components/Help/Heading'
 import Box from '~/components/Help/Box'
 import Account3 from '~/components/Help/Account3'
 export default {
+  middleware: ['isAuth'],
   components: {
     Heading,
     Account3,

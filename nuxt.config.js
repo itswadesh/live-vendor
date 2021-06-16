@@ -7,7 +7,6 @@ import {
   dev,
   tailwindcss,
   PORT,
-  GOOGLE_ANALYTICS_ID,
 } from './shared/config/index'
 const whitelistPatterns = [/(slick-+|swal2-)/]
 export default {
@@ -40,31 +39,22 @@ export default {
   buildModules: [
     '@nuxtjs/apollo',
     '@nuxtjs/tailwindcss',
-    'nuxt-purgecss',
     'nuxt-webfontloader',
-    '@nuxtjs/google-analytics',
     '@nuxtjs/pwa',
-    'vue-social-sharing/nuxt',
     ['nuxt-i18n', I18N],
     // 'nuxt-vite',
   ],
   modules: [
     '@nuxtjs/robots',
-    '@nuxtjs/toast',
     '@nuxtjs/proxy',
     '@nuxtjs/axios',
     '@nuxtjs/dotenv',
     'cookie-universal-nuxt',
-    'vue-sweetalert2/nuxt',
   ],
   pageTransition: 'slide-bottom',
   layoutTransition: 'slide-bottom',
   toast: {
     singleton: true,
-  },
-  purgeCSS: {
-    // whitelist,
-    whitelistPatterns,
   },
   axios: {
     proxy: true,
@@ -74,7 +64,7 @@ export default {
       default: {
         httpEndpoint: `${WWW_URL}/graphql`,
         browserHttpEndpoint: '/graphql',
-        // wsEndpoint: server.replace('http', 'ws') + '/graphql',
+        wsEndpoint: `${HTTP_ENDPOINT.replace('http', 'ws')}/graphql`,
       },
     },
     defaultOptions: {

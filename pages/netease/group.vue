@@ -32,12 +32,14 @@
 </template>
 <script>
 // import { console.log } from '../../components/console.log'
-import * as WebRTC2 from './sdk/NIM_Web_WebRTC2_v4.0.1.js'
+import * as WebRTC2 from '~/assets/js/netease/NIM_Web_WebRTC2_v4.0.1.js'
+// import * as WebRTC2 from './sdk/NIM_Web_WebRTC2_v4.0.1.js'
 // import config from '../../../config'
 // import { getToken } from '../../common'
 import NETEASE_TOKEN from '~/gql/liveStream/neteaseToken.gql'
 
 export default {
+  middleware: ['isAuth'],
   data() {
     return {
       isSilence: false,
@@ -82,7 +84,10 @@ export default {
       const stream = evt.stream
       const userId = stream.getId()
       if (this.remoteStreams.some((item) => item.getId() === userId)) {
-        console.warn('Received a subscribed remote publication and needs to be updated', stream)
+        console.warn(
+          'Received a subscribed remote publication and needs to be updated',
+          stream
+        )
         this.remoteStreams = this.remoteStreams.map((item) =>
           item.getId() === userId ? stream : item
         )
@@ -103,7 +108,11 @@ export default {
       this.remoteStreams = this.remoteStreams.map((item) =>
         item.getId() === userId ? stream : item
       )
-      console.warn('The remote stream stops subscribing and needs to be updated', userId, stream)
+      console.warn(
+        'The remote stream stops subscribing and needs to be updated',
+        userId,
+        stream
+      )
     })
 
     this.client.on('stream-subscribed', (evt) => {
@@ -185,12 +194,16 @@ export default {
           token,
         })
         .then((data) => {
-          console.info('Join the room successfully, start to initialize the local audio and video stream')
+          console.info(
+            'Join the room successfully, start to initialize the local audio and video stream'
+          )
           this.initLocalStream(uid)
         })
         .catch((error) => {
           console.error('Failed to join the room：', error)
-          console.log(`${error}: Please check if the appkey or token is correct`)
+          console.log(
+            `${error}: Please check if the appkey or token is correct`
+          )
           this.returnJoin()
         })
     },
@@ -214,7 +227,9 @@ export default {
       this.localStream
         .init()
         .then(() => {
-          console.warn('The audio and video have been turned on and can be played')
+          console.warn(
+            'The audio and video have been turned on and can be played'
+          )
           const div = self.$refs.large
           this.localStream.play(div)
           this.localStream.setLocalRenderMode({
