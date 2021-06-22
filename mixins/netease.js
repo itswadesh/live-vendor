@@ -4,8 +4,8 @@ const pushUser = {
   uid: null,
   x: null,
   y: null,
-  width: 500,
-  height: 360,
+  width: 1280,
+  height: 720,
   adaption: 1,
   pushAudio: true,
   pushVideo: true,
@@ -399,7 +399,7 @@ export default {
       })
       console.warn(
         'zzzzzzzzzzzzzthis.rtmpTasks[0].layout.users.push successfull..........',
-        this.rtmpTasks[0].layout.users
+        this.rtmpTasks[0].layout
       )
     },
     deleteTasks(taskIds) {
@@ -456,7 +456,7 @@ export default {
           })
           console.warn('Turn off the camera sucess')
           this.isPushing = false
-        } catch (error) {
+        } catch (err) {
           console.warn('Failed to turn off the camera: ', err)
           console.error('Failed to turn off the camera')
         }

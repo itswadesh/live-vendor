@@ -18,11 +18,11 @@
       </div>
     </div>
 
-    <div title="Configure push">
+    <!-- <div title="Configure push">
       <button @click="togglePushStats" class="text-white">
         {{ isPushing ? 'Stop streaming' : 'Start streaming' }}
       </button>
-    </div>
+    </div> -->
     <div class="" v-if="channel">
       <h2>{{ channel.title }}</h2>
       <div
@@ -101,16 +101,6 @@ const task = {
       color: 16777215,
     },
     users: [],
-    images: [
-      {
-        url: 'https://yx-web-nosdn.netease.im/quickhtml%2Fassets%2Fyunxin%2Fdefault%2Fother%2FLark2.jpeg',
-        x: 250,
-        y: 390,
-        width: 480,
-        height: 300,
-        adaption: 1,
-      },
-    ],
   },
 }
 export default {
