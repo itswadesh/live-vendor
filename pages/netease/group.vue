@@ -36,7 +36,7 @@ import * as WebRTC2 from '~/assets/js/netease/NIM_Web_WebRTC2_v4.0.1.js'
 // import * as WebRTC2 from './sdk/NIM_Web_WebRTC2_v4.0.1.js'
 // import config from '../../../config'
 // import { getToken } from '../../common'
-import NETEASE_TOKEN from '~/gql/liveStream/neteaseToken.gql'
+import NETEASE_TOKEN from '~/gql/channel/neteaseToken.gql'
 
 export default {
   middleware: ['isAuth'],

@@ -7,7 +7,16 @@
       <div
         v-for="p in live.products"
         :key="p.id"
-        class="relative m-1 bg-white border-2 border-gray-300  h-36 group w-36 hover:border-blue-500"
+        class="
+          relative
+          m-1
+          bg-white
+          border-2 border-gray-300
+          h-36
+          group
+          w-36
+          hover:border-blue-500
+        "
       >
         <img v-lazy="p.img" alt="" class="w-32 h-32 mx-auto" />
         <div class="absolute bottom-0 w-full">
@@ -16,11 +25,31 @@
           </p>
         </div>
         <div
-          class="absolute inset-0 z-10 hidden bg-gray-900 cursor-default  transitionstyle margin group-hover:block bg-opacity-60"
+          class="
+            absolute
+            inset-0
+            z-10
+            hidden
+            bg-gray-900
+            cursor-default
+            transitionstyle
+            margin
+            group-hover:block
+            bg-opacity-60
+          "
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="w-6 h-6 m-1 ml-auto text-gray-100 transform cursor-pointer  hover:scale-105"
+            class="
+              w-6
+              h-6
+              m-1
+              ml-auto
+              text-gray-100
+              transform
+              cursor-pointer
+              hover:scale-105
+            "
             viewBox="0 0 20 20"
             fill="currentColor"
           >
@@ -35,7 +64,15 @@
           </p>
           <nuxt-link to="/live">
             <p
-              class="mt-8 text-sm font-semibold text-center text-gray-100 transform cursor-pointer  hover:scale-105"
+              class="
+                mt-8
+                text-sm
+                font-semibold
+                text-center text-gray-100
+                transform
+                cursor-pointer
+                hover:scale-105
+              "
             >
               View
             </p>
@@ -57,9 +94,9 @@
 </template>
 
 <script>
-import ZEGO from '~/gql/liveStream/zego.gql'
+import ZEGO from '~/gql/channel/zego.gql'
 import ME from '~/gql/user/me.gql'
-import LIVE_STREAM from '~/gql/liveStream/liveStream.gql'
+import CHANNEL from '~/gql/channel/channel.gql'
 
 export default {
   middleware: ['isAuth'],
@@ -161,11 +198,11 @@ export default {
     this.live =
       (
         await this.$apollo.query({
-          query: LIVE_STREAM,
+          query: CHANNEL,
           variables: { id: this.$route.params.id },
           fetchPolicy: 'no-cache',
         })
-      ).data.liveStream || {}
+      ).data.channel || {}
     const ZegoExpressEngine =
       require('zego-express-engine-webrtc').ZegoExpressEngine
     const zg = (this.zg = new ZegoExpressEngine(zego.appID, zego.server))

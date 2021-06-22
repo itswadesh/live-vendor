@@ -14,8 +14,8 @@
           <span class="loading-text">Waiting for the other party to join</span>
         </div>
       </div>
-      <div class="sub-window-wrapper text-white" v-if="liveStream">
-        <h2>{{ liveStream.title }}</h2>
+      <div class="sub-window-wrapper text-white" v-if="channel">
+        <h2>{{ channel.title }}</h2>
       </div>
     </div>
     <ul class="tab-bar">
@@ -26,8 +26,8 @@
       <li class="over" @click="handleOver"></li>
       <li :class="{ stop: true, isStop }" @click="stopOrOpenVideo"></li>
     </ul>
-    <div class="" v-if="liveStream">
-      <h2>{{ liveStream.title }}</h2>
+    <div class="" v-if="channel">
+      <h2>{{ channel.title }}</h2>
       <div
         class="
           flex flex-wrap
@@ -41,7 +41,7 @@
         <a
           :href="`${REFERRER_URL}/${p.slug}?id=${p.id}`"
           target="_blank"
-          v-for="p in liveStream.products"
+          v-for="p in channel.products"
           :key="p.id"
           class="
             relative
@@ -132,8 +132,8 @@
 </template>
 <script>
 import * as WebRTC2 from '~/assets/js/netease/NIM_Web_WebRTC2_v4.0.1.js'
-import NETEASE_TOKEN from '~/gql/liveStream/neteaseToken.gql'
-import LIVE_STREAM from '~/gql/liveStream/liveStream.gql'
+import NETEASE_TOKEN from '~/gql/channel/neteaseToken.gql'
+import CHANNEL from '~/gql/channel/channel.gql'
 import Chats from '~/components/Chats.vue'
 import { REFERRER_URL } from '~/config'
 
@@ -149,21 +149,21 @@ export default {
       localStream: null,
       remoteStreams: [],
       max: 20,
-      liveStream: null,
+      channel: null,
       REFERRER_URL,
     }
   },
   async created() {
     try {
-      this.liveStream = (
+      this.channel = (
         await this.$apollo.query({
-          query: LIVE_STREAM,
+          query: CHANNEL,
           variables: { id: this.$route.query.channelName },
           fetchPolicy: 'no-cache',
         })
-      ).data.liveStream
+      ).data.channel
     } catch (e) {
-      console.log('liveStream ERR::: ', e.toString())
+      console.log('channel ERR::: ', e.toString())
     }
   },
   async mounted() {

@@ -1,4 +1,6 @@
 import { I18N } from './config/lang'
+import path from 'path'
+import fs from 'fs'
 import {
   HTTP_ENDPOINT,
   ONESIGNAL_APP_ID,
@@ -13,6 +15,14 @@ export default {
   server: {
     host: '0.0.0.0',
     port: 3300,
+    overlay: {
+      warnings: false,
+      errors: true,
+    },
+    // https: {
+    //   key: fs.readFileSync('./cert/key.pem'),
+    //   cert: fs.readFileSync('./cert/cert.pem'),
+    // },
   },
   head: {
     title: process.env.npm_package_name || '',
@@ -50,6 +60,7 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/dotenv',
     'cookie-universal-nuxt',
+    '@nuxtjs/toast',
   ],
   pageTransition: 'slide-bottom',
   layoutTransition: 'slide-bottom',

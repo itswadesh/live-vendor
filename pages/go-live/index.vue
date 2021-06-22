@@ -15,17 +15,17 @@
 <script>
 import List from '~/components/CRUD/List'
 import { api, heading, fields } from './config'
-import liveStreams from '~/gql/liveStream/liveStreams.gql'
-import saveliveStream from '~/gql/liveStream/saveLiveStream.gql'
-import deleteliveStream from '~/gql/liveStream/deleteliveStream.gql'
+import channels from '~/gql/channel/channels.gql'
+import savechannel from '~/gql/channel/saveChannel.gql'
+import deletechannel from '~/gql/channel/deletechannel.gql'
 export default {
   middleware: ['isAuth'],
   data: () => {
     return {
-      query: liveStreams,
-      mutation: saveliveStream,
-      deleteMutation: deleteliveStream,
-      model: 'liveStreams',
+      query: channels,
+      mutation: savechannel,
+      deleteMutation: deletechannel,
+      model: 'channels',
       api,
       heading,
       f: fields,
