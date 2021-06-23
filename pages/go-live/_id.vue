@@ -2,7 +2,18 @@
   <section class="text-gray-800">
     <header class="w-full py-2 pt-10">
       <div
-        class="flex items-center justify-center py-4 text-xl font-bold text-center text-red-500 bg-white shadow-md  md:text-3xl"
+        class="
+          flex
+          items-center
+          justify-center
+          py-4
+          text-xl
+          font-bold
+          text-center text-red-500
+          bg-white
+          shadow-md
+          md:text-3xl
+        "
       >
         <div class="w-4 h-4 mr-2 bg-red-500 rounded-full md:w-5 md:h-5"></div>
         <span>GO LIVE</span>
@@ -31,7 +42,20 @@
             <div
               v-for="(p, index) in live.products"
               :key="index"
-              class="relative flex flex-wrap items-center justify-between mb-2 mr-1 bg-white border-2 border-gray-300  h-36 group w-36 hover:border-blue-500"
+              class="
+                relative
+                flex flex-wrap
+                items-center
+                justify-between
+                mb-2
+                mr-1
+                bg-white
+                border-2 border-gray-300
+                h-36
+                group
+                w-36
+                hover:border-blue-500
+              "
             >
               <img v-lazy="p.img" alt="" class="w-32 h-32 mx-auto" />
               <div class="absolute bottom-0 w-full">
@@ -40,14 +64,33 @@
                 </p>
               </div>
               <div
-                class="absolute inset-0 z-10 hidden bg-gray-900 cursor-default  transitionstyle margin group-hover:block bg-opacity-60"
+                class="
+                  absolute
+                  inset-0
+                  z-10
+                  hidden
+                  bg-gray-900
+                  cursor-default
+                  transitionstyle
+                  margin
+                  group-hover:block
+                  bg-opacity-60
+                "
               >
                 <!-- v-if="showDeleteBtnIndex == null"
                   @click="deleteImage(i)" -->
                 <div class="ml-auto max-w-max">
                   <button
                     @click="removeProductFromList(index)"
-                    class="m-1 transition duration-100 transform cursor-pointer  focus:outline-none focus:scale-75"
+                    class="
+                      m-1
+                      transition
+                      duration-100
+                      transform
+                      cursor-pointer
+                      focus:outline-none
+                      focus:scale-75
+                    "
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -64,13 +107,37 @@
                   </button>
                 </div>
                 <p
-                  class="mt-5 text-sm font-semibold text-center text-gray-100 transition duration-100 transform cursor-pointer  hover:scale-95 focus:outline-none focus:scale-75"
+                  class="
+                    mt-5
+                    text-sm
+                    font-semibold
+                    text-center text-gray-100
+                    transition
+                    duration-100
+                    transform
+                    cursor-pointer
+                    hover:scale-95
+                    focus:outline-none
+                    focus:scale-75
+                  "
                 >
                   Click to add
                 </p>
                 <nuxt-link to="/go-live">
                   <p
-                    class="mt-8 text-sm font-semibold text-center text-gray-100 transition duration-100 transform cursor-pointer  hover:scale-95 focus:outline-none focus:scale-75"
+                    class="
+                      mt-8
+                      text-sm
+                      font-semibold
+                      text-center text-gray-100
+                      transition
+                      duration-100
+                      transform
+                      cursor-pointer
+                      hover:scale-95
+                      focus:outline-none
+                      focus:scale-75
+                    "
                   >
                     View
                   </p>
@@ -89,11 +156,26 @@
             <button
               @click="showModal = true"
               type="button"
-              class="border-2 border-gray-300 border-dashed cursor-pointer  focus:outline-none hover:text-blue-500 group hover:border-blue-600 h-36 w-36"
+              class="
+                border-2 border-gray-300 border-dashed
+                cursor-pointer
+                focus:outline-none
+                hover:text-blue-500
+                group
+                hover:border-blue-600
+                h-36
+                w-36
+              "
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="w-16 h-16 mx-auto text-gray-300  group-hover:text-blue-600"
+                class="
+                  w-16
+                  h-16
+                  mx-auto
+                  text-gray-300
+                  group-hover:text-blue-600
+                "
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -106,7 +188,11 @@
                 />
               </svg>
               <h5
-                class="mt-5 text-xs text-center text-gray-400  group-hover:text-blue-600"
+                class="
+                  mt-5
+                  text-xs text-center text-gray-400
+                  group-hover:text-blue-600
+                "
               >
                 Select Products
               </h5>
@@ -129,7 +215,22 @@
         >
           <button
             @click="showModal = false"
-            class="absolute p-1 transition duration-300 transform rounded-md  hover:bg-opacity-50 group hover:bg-gray-900 hover:shadow-md top-3 right-3 focus:outline-none focus:scale-75"
+            class="
+              absolute
+              p-1
+              transition
+              duration-300
+              transform
+              rounded-md
+              hover:bg-opacity-50
+              group
+              hover:bg-gray-900
+              hover:shadow-md
+              top-3
+              right-3
+              focus:outline-none
+              focus:scale-75
+            "
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -156,12 +257,28 @@
 
           <div
             v-if="showModal"
-            class="flex flex-wrap items-center justify-center bg-white  my-7 products"
+            class="
+              flex flex-wrap
+              items-center
+              justify-center
+              bg-white
+              my-7
+              products
+            "
           >
             <div
               v-for="p in allProducts"
               :key="p.id"
-              class="relative m-1 bg-white border-2 border-gray-300  h-36 group w-36 hover:border-blue-500"
+              class="
+                relative
+                m-1
+                bg-white
+                border-2 border-gray-300
+                h-36
+                group
+                w-36
+                hover:border-blue-500
+              "
               @click="
                 live.products.push(p)
                 showModal = false
@@ -174,13 +291,33 @@
                 </p>
               </div>
               <div
-                class="absolute inset-0 z-10 hidden bg-gray-900 cursor-default  transitionstyle margin group-hover:block bg-opacity-60"
+                class="
+                  absolute
+                  inset-0
+                  z-10
+                  hidden
+                  bg-gray-900
+                  cursor-default
+                  transitionstyle
+                  margin
+                  group-hover:block
+                  bg-opacity-60
+                "
               >
                 <!-- v-if="showDeleteBtnIndex == null"
                   @click="deleteImage(i)" -->
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="w-6 h-6 m-1 ml-auto text-gray-100 transform cursor-pointer  hover:scale-95"
+                  class="
+                    w-6
+                    h-6
+                    m-1
+                    ml-auto
+                    text-gray-100
+                    transform
+                    cursor-pointer
+                    hover:scale-95
+                  "
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
@@ -191,13 +328,29 @@
                   />
                 </svg>
                 <p
-                  class="mt-8 text-sm font-semibold text-center text-gray-100 transform cursor-pointer  hover:scale-95"
+                  class="
+                    mt-8
+                    text-sm
+                    font-semibold
+                    text-center text-gray-100
+                    transform
+                    cursor-pointer
+                    hover:scale-95
+                  "
                 >
                   Click to add
                 </p>
                 <nuxt-link to="/go-live">
                   <p
-                    class="mt-8 text-sm font-semibold text-center text-gray-100 transform cursor-pointer  hover:scale-95"
+                    class="
+                      mt-8
+                      text-sm
+                      font-semibold
+                      text-center text-gray-100
+                      transform
+                      cursor-pointer
+                      hover:scale-95
+                    "
                   >
                     View
                   </p>
@@ -209,7 +362,16 @@
       </div>
       <div class="w-full mt-20 mb-auto lg:mt-0 lg:w-1/2 lg:pl-2 lg:pr-4">
         <div
-          class="h-full p-2 pb-10 bg-gray-300 rounded-lg  md:pt-5 xl:pt-10 xl:pb-20"
+          class="
+            h-full
+            p-2
+            pb-10
+            bg-gray-300
+            rounded-lg
+            md:pt-5
+            xl:pt-10
+            xl:pb-20
+          "
         >
           <div
             class="flex items-center justify-center m-2 space-x-2 md:space-x-5"
@@ -217,7 +379,24 @@
             <button
               type="button"
               @click="publish($route.params.id)"
-              class="flex items-center justify-center w-32 py-1 font-semibold tracking-wide transition duration-300 bg-white rounded-md shadow-md  focus:ring-2 hover:shadow focus:outline-none focus:ring-red-500"
+              class="
+                flex
+                items-center
+                justify-center
+                w-32
+                py-1
+                font-semibold
+                tracking-wide
+                transition
+                duration-300
+                bg-white
+                rounded-md
+                shadow-md
+                focus:ring-2
+                hover:shadow
+                focus:outline-none
+                focus:ring-red-500
+              "
             >
               <img src="/youtube-live.png" class="block md:hidden" />
               <img src="/youtube-live.png" class="hidden md:block" />
@@ -225,7 +404,22 @@
             </button>
             <button
               @click="stop"
-              class="flex items-center justify-center w-32 py-1 font-semibold tracking-wide transition duration-300 bg-white rounded-md shadow-md  hover:shadow focus:outline-none"
+              class="
+                flex
+                items-center
+                justify-center
+                w-32
+                py-1
+                font-semibold
+                tracking-wide
+                transition
+                duration-300
+                bg-white
+                rounded-md
+                shadow-md
+                hover:shadow
+                focus:outline-none
+              "
             >
               <img src="/stop-circled.png" class="block md:hidden" />
               <img src="/stop-circled.png" class="hidden md:block" />
@@ -234,7 +428,22 @@
             <button
               type="button"
               @click="leave"
-              class="flex items-center justify-center w-32 py-1 font-semibold tracking-wide transition duration-300 bg-white rounded-md shadow-md  hover:shadow focus:outline-none"
+              class="
+                flex
+                items-center
+                justify-center
+                w-32
+                py-1
+                font-semibold
+                tracking-wide
+                transition
+                duration-300
+                bg-white
+                rounded-md
+                shadow-md
+                hover:shadow
+                focus:outline-none
+              "
             >
               <img src="/cross-mark-emoji.png" class="block md:hidden" />
               <img src="/cross-mark-emoji.png" class="hidden md:block" />
@@ -282,11 +491,11 @@ import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css'
 import TextboxFloating from '~/components/ui/TextboxFloating'
 // import Textbox from '~/components/ui/Textbox'
 import { Button } from '~/shared/components/ui'
-import LIVE_STREAM from '~/gql/liveStream/liveStream.gql'
-import SAVE_LIVE_STREAM from '~/gql/liveStream/saveLiveStream.gql'
+import CHANNEL from '~/gql/channel/channel.gql'
+import SAVE_CHANNEL from '~/gql/channel/saveChannel.gql'
 import PRODUCTS from '~/gql/product/products.gql'
 import zego from '~/shared/mixins/zego'
-import ZEGO from '~/gql/liveStream/zego.gql'
+import ZEGO from '~/gql/channel/zego.gql'
 export default {
   data() {
     return {
@@ -387,7 +596,7 @@ export default {
         this.clearErr()
         const live = (
           await this.$apollo.mutate({
-            mutation: SAVE_LIVE_STREAM,
+            mutation: SAVE_CHANNEL,
             variables: {
               id,
               title: this.live.title,
@@ -396,7 +605,7 @@ export default {
               products,
             },
           })
-        ).data.saveLiveStream
+        ).data.saveChannel
         if (id == 'new' || !id || id == undefined || id == 'undefined')
           this.$router.push(`/go-live/${live.id}`)
       } catch (e) {
@@ -417,11 +626,11 @@ export default {
           this.live =
             (
               await this.$apollo.query({
-                query: LIVE_STREAM,
+                query: CHANNEL,
                 variables: { id },
                 fetchPolicy: 'no-cache',
               })
-            ).data.liveStream || {}
+            ).data.channel || {}
           this.live.scheduleDateTime = moment(
             this.live.scheduleDateTime
           ).format('YYYY-MM-DD hh:mm:ss a')
@@ -447,11 +656,11 @@ export default {
     this.live =
       (
         await this.$apollo.query({
-          query: LIVE_STREAM,
+          query: CHANNEL,
           variables: { id: this.$route.params.id },
           fetchPolicy: 'no-cache',
         })
-      ).data.liveStream || {}
+      ).data.channel || {}
     const ZegoExpressEngine =
       require('zego-express-engine-webrtc').ZegoExpressEngine
     const zg = (this.zg = new ZegoExpressEngine(zego.appID, zego.server))

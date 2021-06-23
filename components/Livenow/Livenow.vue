@@ -26,7 +26,7 @@
 
 <script>
 import FreeProduct from '~/components/Anne/FreeProduct'
-import LIVE_STREAMS from '~/gql/liveStream/liveStreams.gql'
+import CHANNELS from '~/gql/channel/channels.gql'
 export default {
   components: {
     FreeProduct,
@@ -41,10 +41,10 @@ export default {
     this.items =
       (
         await this.$apollo.query({
-          query: LIVE_STREAMS,
+          query: CHANNELS,
           fetchPolicy: 'no-cache',
         })
-      ).data.liveStreams.data || []
+      ).data.channels.data || []
   },
 }
 </script>
