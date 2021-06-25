@@ -1,16 +1,23 @@
 <template>
-  <video ref="video" width="100%" height="640" controls></video>
+  <div>
+    <FlvPlayer :src="$route.query.url" />
+    <!-- <video ref="video" width="100%" height="640" controls></video> -->
+  </div>
 </template>
 
 <script>
 import Hls from 'hls.js'
 import CHANNEL from '~/gql/channel/channel.gql'
+import FlvPlayer from '~/components/FlvPlayer'
 
 export default {
   data() {
     return {
       channel: null,
     }
+  },
+  components: {
+    FlvPlayer,
   },
   async mounted() {
     this.channel = await this.getChannelDetails()
