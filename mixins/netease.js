@@ -134,22 +134,6 @@ export default {
       })
 
       this.client.on('stream-added', async (evt) => {
-        // var remoteStream = evt.stream
-        // console.warn(
-        //   'Receive a subscription message published by the other party: ',
-        //   remoteStream.getId()
-        // )
-
-        // if (
-        //   this.remoteStream &&
-        //   this.remoteStream.getId() !== remoteStream.getId()
-        // ) {
-        //   console.warn('The third person in the room joins, ignore')
-        //   return
-        // } else {
-        //   this.remoteStream = remoteStream
-        // }
-        // this.subscribe(remoteStream)
         const stream = evt.stream
         const userId = stream.getId()
         if (this.remoteStreams.some((item) => item.getId() === userId)) {

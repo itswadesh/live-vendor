@@ -25,7 +25,7 @@
         :class="{ silence: true, isSilence }"
         @click="setOrRelieveSilence"
       ></li>
-      <li class="over" @click="handleOver"></li>
+      <li class="over" @click="stop"></li>
       <li :class="{ stop: true, isStop }" @click="stopOrOpenVideo"></li>
     </ul>
   </div>
@@ -49,25 +49,29 @@ export default {
     ).data.neteaseToken
     window.self = this
     await this.createClient(appkey) // Step-2
+    await this.subscribeToStreams()
     await this.joinChannel(token, uid, this.$route.query.channelName)
     await this.initLocalStream(uid) // Step-3A
     await this.publish() // Step-3(B)
-    await this.subscribeToStreams()
   },
 
-  // methods: {
-  //   publish() {
-  //     console.warn('Start publishing video stream')
-  //     this.client
-  //       .publish(this.localStream)
-  //       .then(() => {
-  //         console.warn('Local publish successfully')
-  //       })
-  //       .catch((err) => {
-  //         console.error('Local publish failed: ', err)
-  //       })
-  //   },
-  // },
+  methods: {
+    stop() {
+      this.handleOver()
+      this.$router.go(-1)
+    },
+    //   publish() {
+    //     console.warn('Start publishing video stream')
+    //     this.client
+    //       .publish(this.localStream)
+    //       .then(() => {
+    //         console.warn('Local publish successfully')
+    //       })
+    //       .catch((err) => {
+    //         console.error('Local publish failed: ', err)
+    //       })
+    //   },
+  },
 }
 </script>
 
