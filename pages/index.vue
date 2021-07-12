@@ -13,7 +13,7 @@
     </nuxt-link>
     <nuxt-link
       class="px-4 py-2 m-4 text-white bg-red-500 rounded"
-      to="/netease/stream?channelName=60cdd20b15a5dd2c32062f14"
+      to="/netease/go-live?channelName=60cdd20b15a5dd2c32062f14"
     >
       Netease Go Live
     </nuxt-link>

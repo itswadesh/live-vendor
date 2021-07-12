@@ -77,10 +77,10 @@
       <!-- <li class="stop" @click="handleOver"></li> -->
       <!-- <li class="silence" @click="handleOver"></li> -->
     </ul>
-    <!-- <Chats
+    <Chats
       :channel="$route.query.channelName"
       class="fixed bottom-0 left-0 mb-16 ml-2"
-    /> -->
+    />
   </div>
 </template>
 <script>

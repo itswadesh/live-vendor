@@ -19,10 +19,10 @@ export default {
       warnings: false,
       errors: true,
     },
-    // https: {
-    //   key: fs.readFileSync('./cert/key.pem'),
-    //   cert: fs.readFileSync('./cert/cert.pem'),
-    // },
+    https: {
+      key: fs.readFileSync('./cert/key.pem'),
+      cert: fs.readFileSync('./cert/cert.pem'),
+    },
   },
   head: {
     title: process.env.npm_package_name || '',
@@ -62,6 +62,13 @@ export default {
     'cookie-universal-nuxt',
     '@nuxtjs/toast',
   ],
+  publicRuntimeConfig: {
+    WWW_URL: `${WWW_URL}`,
+    HTTP_ENDPOINT: `${HTTP_ENDPOINT}`,
+  },
+  privateRuntimeConfig: {
+    firebaseAppId: process.env.FIREBASE_APP_ID,
+  },
   pageTransition: 'slide-bottom',
   layoutTransition: 'slide-bottom',
   toast: {
@@ -72,11 +79,7 @@ export default {
   },
   apollo: {
     clientConfigs: {
-      default: {
-        httpEndpoint: `${WWW_URL}/graphql`,
-        browserHttpEndpoint: '/graphql',
-        wsEndpoint: `${HTTP_ENDPOINT.replace('http', 'ws')}/graphql`,
-      },
+      default: '~/plugins/apollo-config.js',
     },
     defaultOptions: {
       $query: {
