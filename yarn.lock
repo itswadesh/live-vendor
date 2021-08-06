@@ -6255,14 +6255,6 @@ expand-brackets@^2.1.4:
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/expand-brackets/-/expand-brackets-2.1.4.tgz#b77735e315ce30f6b6eff0f83b04151a22449622"
   integrity sha1-t3c14xXOMPa27/D4OwQVGiJEliI=
-  dependencies:
-    debug "^2.3.3"
-    define-property "^0.2.5"
-    extend-shallow "^2.0.1"
-    posix-character-classes "^0.1.0"
-    regex-not "^1.0.0"
-    snapdragon "^0.8.1"
-    to-regex "^3.0.1"
 
 express@^4.17.1:
   version "4.17.1"
@@ -6988,6 +6980,11 @@ globule@^1.0.0:
     glob "~7.1.1"
     lodash "~4.17.10"
     minimatch "~3.0.2"
+
+google-one-tap@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/google-one-tap/-/google-one-tap-1.0.1.tgz#94d2a1278c1896736ee76891b24d2b1f45625e04"
+  integrity sha512-bhLkLBcgw+7jOHFjTiUZQhxXjuhYITCWkWJmeU8+cmXT/46bwn5wpScAX/rdk2r6XArU3J3iuxmkAOOduEUliQ==
 
 got@^9.6.0:
   version "9.6.0"
@@ -13359,6 +13356,9 @@ vue-style-loader@^4.1.0, vue-style-loader@^4.1.3:
   version "4.1.3"
   resolved "https://registry.yarnpkg.com/vue-style-loader/-/vue-style-loader-4.1.3.tgz#6d55863a51fa757ab24e89d9371465072aa7bc35"
   integrity sha512-sFuh0xfbtpRlKfm39ss/ikqs9AbKCoXZBpHeVZ8Tx650o0k0q/YCM7FRvigtxpACezfq6af+a7JeqVTWvncqDg==
+  dependencies:
+    hash-sum "^1.0.2"
+    loader-utils "^1.0.2"
 
 vue-template-compiler@^2.6.12:
   version "2.6.12"

@@ -13,16 +13,16 @@ import {
 const whitelistPatterns = [/(slick-+|swal2-)/]
 export default {
   server: {
-    host: '0.0.0.0',
-    port: 3300,
+    // host: '0.0.0.0',
+    port: 3000,
     overlay: {
       warnings: false,
       errors: true,
     },
-    https: {
-      key: fs.readFileSync('./cert/key.pem'),
-      cert: fs.readFileSync('./cert/cert.pem'),
-    },
+    // https: {
+    //   key: fs.readFileSync('./cert/key.pem'),
+    //   cert: fs.readFileSync('./cert/cert.pem'),
+    // },
   },
   head: {
     title: process.env.npm_package_name || '',
