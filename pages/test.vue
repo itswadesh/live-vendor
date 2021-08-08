@@ -12,8 +12,7 @@ export default {
     }
     googleOneTap(options, (response) => {
       // Send response to server
-      console.log('zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz', response)
-      this.$axios.$post('/api/auth/google/onetap')
+      this.$post('googleOnetap', response)
     })
   },
 }

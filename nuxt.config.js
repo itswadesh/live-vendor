@@ -45,6 +45,7 @@ export default {
     { src: '~/plugins/filters.js', mode: 'client' },
     { src: '~/plugins/vue-mq.js' },
     { src: '~/plugins/lazy.js', mode: 'client' },
+    { src: '~/plugins/api.js' },
   ],
   buildModules: [
     '@nuxtjs/apollo',
@@ -91,6 +92,7 @@ export default {
   proxy: {
     '/graphql': HTTP_ENDPOINT,
     '/api': HTTP_ENDPOINT,
+    '/auth': HTTP_ENDPOINT,
   },
   webfontloader: {
     google: {
