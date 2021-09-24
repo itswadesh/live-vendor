@@ -195,7 +195,7 @@ export default {
 }
 </script>
 
-<style scoped lang="less">
+<style scoped>
 .wrapper {
   height: 92vh;
   background-image: linear-gradient(179deg, #141417 0%, #181824 100%);

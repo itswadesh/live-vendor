@@ -8,7 +8,7 @@ import {
   head,
   dev,
   tailwindcss,
-  PORT,
+  PORT
 } from './shared/config/index'
 const whitelistPatterns = [/(slick-+|swal2-)/]
 export default {
@@ -17,8 +17,8 @@ export default {
     port: 3000,
     overlay: {
       warnings: false,
-      errors: true,
-    },
+      errors: true
+    }
     // https: {
     //   key: fs.readFileSync('./cert/key.pem'),
     //   cert: fs.readFileSync('./cert/cert.pem'),
@@ -32,10 +32,10 @@ export default {
       {
         hid: 'description',
         name: 'description',
-        content: process.env.npm_package_description || '',
-      },
+        content: process.env.npm_package_description || ''
+      }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
   loading: { color: '#fff' },
   css: [],
@@ -46,13 +46,14 @@ export default {
     { src: '~/plugins/vue-mq.js' },
     { src: '~/plugins/lazy.js', mode: 'client' },
     { src: '~/plugins/api.js' },
+    { src: '~/plugins/productZoomer.js' }
   ],
   buildModules: [
     '@nuxtjs/apollo',
     '@nuxtjs/tailwindcss',
     'nuxt-webfontloader',
     '@nuxtjs/pwa',
-    ['nuxt-i18n', I18N],
+    ['nuxt-i18n', I18N]
     // 'nuxt-vite',
   ],
   modules: [
@@ -61,45 +62,45 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/dotenv',
     'cookie-universal-nuxt',
-    '@nuxtjs/toast',
+    '@nuxtjs/toast'
   ],
   publicRuntimeConfig: {
     WWW_URL: `${WWW_URL}`,
-    HTTP_ENDPOINT: `${HTTP_ENDPOINT}`,
+    HTTP_ENDPOINT: `${HTTP_ENDPOINT}`
   },
   privateRuntimeConfig: {
-    firebaseAppId: process.env.FIREBASE_APP_ID,
+    firebaseAppId: process.env.FIREBASE_APP_ID
   },
   pageTransition: 'slide-bottom',
   layoutTransition: 'slide-bottom',
   toast: {
-    singleton: true,
+    singleton: true
   },
   axios: {
-    proxy: true,
+    proxy: true
   },
   apollo: {
     clientConfigs: {
-      default: '~/plugins/apollo-config.js',
+      default: '~/plugins/apollo-config.js'
     },
     defaultOptions: {
       $query: {
         loadingKey: 'loading',
-        fetchPolicy: 'cache-and-network',
-      },
-    },
+        fetchPolicy: 'cache-and-network'
+      }
+    }
   },
   proxy: {
     '/graphql': HTTP_ENDPOINT,
     '/api': HTTP_ENDPOINT,
-    '/auth': HTTP_ENDPOINT,
+    '/auth': HTTP_ENDPOINT
   },
   webfontloader: {
     google: {
-      families: ['Inter:400,700&display=swap'],
-    },
+      families: ['Inter:400,700&display=swap']
+    }
   },
   build: {
-    extend(config, ctx) {},
-  },
+    extend(config, ctx) {}
+  }
 }

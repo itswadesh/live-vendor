@@ -445,148 +445,118 @@ export default {
 }
 </script>
 
-<style scoped lang="less">
+<style scoped>
 .wrapper {
   height: 100vh;
   background-image: linear-gradient(179deg, #141417 0%, #181824 100%);
   display: flex;
   flex-direction: column;
-
-  .content {
-    flex: 1;
-    display: flex;
-    position: relative;
-
-    .main-window {
-      height: 100%;
-      width: 67vh;
-      //width: 37vw;
-      //width: 427px;
-      margin: 0 auto;
-      background: #25252d;
-    }
-
-    .sub-window-wrapper {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      z-index: 9;
-      width: 165px;
-    }
-
-    .sub-window {
-      background: #25252d;
-      border: 1px solid #ffffff;
-      margin-bottom: 20px;
-
-      .loading-text {
-        display: block;
-        width: 100%;
-        text-align: center;
-        line-height: 90px;
-        font-size: 12px;
-        color: #fff;
-        font-weight: 400;
-      }
-    }
-  }
-
-  .tab-bar {
-    height: 54px;
-    background-image: linear-gradient(180deg, #292933 7%, #212129 100%);
-    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.3);
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-
-    li {
-      height: 54px;
-      width: 125px;
-      cursor: pointer;
-      //静音
-      &.silence {
-        background: url('/live-icons/silence.png') no-repeat center;
-        background-size: 60px 54px;
-
-        &:hover {
-          background: url('/live-icons/silence-hover.png') no-repeat center;
-          background-size: 60px 54px;
-        }
-
-        &:active {
-          background: url('/live-icons/silence-click.png') no-repeat center;
-          background-size: 60px 54px;
-        }
-
-        &.isSilence {
-          //已经开启静音
-          background: url('/live-icons/relieve-silence.png') no-repeat center;
-          background-size: 60px 54px;
-
-          &:hover {
-            background: url('/live-icons/relieve-silence-hover.png') no-repeat
-              center;
-            background-size: 60px 54px;
-          }
-
-          &:active {
-            background: url('/live-icons/relieve-silence-click.png') no-repeat
-              center;
-            background-size: 60px 54px;
-          }
-        }
-      }
-
-      //结束按钮
-      &.over {
-        background: url('/live-icons/over.png') no-repeat center;
-        background-size: 68px 36px;
-
-        &:hover {
-          background: url('/live-icons/over-hover.png') no-repeat center;
-          background-size: 68px 36px;
-        }
-
-        &:active {
-          background: url('/live-icons/over-click.png') no-repeat center;
-          background-size: 68px 36px;
-        }
-      }
-
-      // 停止按钮
-      &.stop {
-        background: url('/live-icons/stop.png') no-repeat center;
-        background-size: 60px 54px;
-
-        &:hover {
-          background: url('/live-icons/stop-hover.png') no-repeat center;
-          background-size: 60px 54px;
-        }
-
-        &:active {
-          background: url('/live-icons/stop-click.png') no-repeat center;
-          background-size: 60px 54px;
-        }
-
-        //已经是停止状态
-        &.isStop {
-          background: url('/live-icons/open.png') no-repeat center;
-          background-size: 60px 54px;
-
-          &:hover {
-            background: url('/live-icons/open-hover.png') no-repeat center;
-            background-size: 60px 54px;
-          }
-
-          &:active {
-            background: url('/live-icons/open-click.png') no-repeat center;
-            background-size: 60px 54px;
-          }
-        }
-      }
-    }
-  }
+}
+.wrapper .content {
+  flex: 1;
+  display: flex;
+  position: relative;
+}
+.wrapper .content .main-window {
+  height: 100%;
+  width: 67vh;
+  margin: 0 auto;
+  background: #25252d;
+}
+.wrapper .content .sub-window-wrapper {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 9;
+  width: 165px;
+}
+.wrapper .content .sub-window {
+  background: #25252d;
+  border: 1px solid #ffffff;
+  margin-bottom: 20px;
+}
+.wrapper .content .sub-window .loading-text {
+  display: block;
+  width: 100%;
+  text-align: center;
+  line-height: 90px;
+  font-size: 12px;
+  color: #fff;
+  font-weight: 400;
+}
+.wrapper .tab-bar {
+  height: 54px;
+  background-image: linear-gradient(180deg, #292933 7%, #212129 100%);
+  box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.3);
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+.wrapper .tab-bar li {
+  height: 54px;
+  width: 125px;
+  cursor: pointer;
+}
+.wrapper .tab-bar li.silence {
+  background: url('/live-icons/silence.png') no-repeat center;
+  background-size: 60px 54px;
+}
+.wrapper .tab-bar li.silence:hover {
+  background: url('/live-icons/silence-hover.png') no-repeat center;
+  background-size: 60px 54px;
+}
+.wrapper .tab-bar li.silence:active {
+  background: url('/live-icons/silence-click.png') no-repeat center;
+  background-size: 60px 54px;
+}
+.wrapper .tab-bar li.silence.isSilence {
+  background: url('/live-icons/relieve-silence.png') no-repeat center;
+  background-size: 60px 54px;
+}
+.wrapper .tab-bar li.silence.isSilence:hover {
+  background: url('/live-icons/relieve-silence-hover.png') no-repeat center;
+  background-size: 60px 54px;
+}
+.wrapper .tab-bar li.silence.isSilence:active {
+  background: url('/live-icons/relieve-silence-click.png') no-repeat center;
+  background-size: 60px 54px;
+}
+.wrapper .tab-bar li.over {
+  background: url('/live-icons/over.png') no-repeat center;
+  background-size: 68px 36px;
+}
+.wrapper .tab-bar li.over:hover {
+  background: url('/live-icons/over-hover.png') no-repeat center;
+  background-size: 68px 36px;
+}
+.wrapper .tab-bar li.over:active {
+  background: url('/live-icons/over-click.png') no-repeat center;
+  background-size: 68px 36px;
+}
+.wrapper .tab-bar li.stop {
+  background: url('/live-icons/stop.png') no-repeat center;
+  background-size: 60px 54px;
+}
+.wrapper .tab-bar li.stop:hover {
+  background: url('/live-icons/stop-hover.png') no-repeat center;
+  background-size: 60px 54px;
+}
+.wrapper .tab-bar li.stop:active {
+  background: url('/live-icons/stop-click.png') no-repeat center;
+  background-size: 60px 54px;
+}
+.wrapper .tab-bar li.stop.isStop {
+  background: url('/live-icons/open.png') no-repeat center;
+  background-size: 60px 54px;
+}
+.wrapper .tab-bar li.stop.isStop:hover {
+  background: url('/live-icons/open-hover.png') no-repeat center;
+  background-size: 60px 54px;
+}
+.wrapper .tab-bar li.stop.isStop:active {
+  background: url('/live-icons/open-click.png') no-repeat center;
+  background-size: 60px 54px;
 }
 </style>
