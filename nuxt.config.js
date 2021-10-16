@@ -1,5 +1,6 @@
+import { defineNuxtConfig } from "@nuxt/bridge";
 const HTTP_ENDPOINT = "https://tapi.litekart.in";
-export default {
+export default defineNuxtConfig({
   head: {
     title: process.env.npm_package_name || "",
     meta: [
@@ -35,4 +36,4 @@ export default {
   build: {
     extend(config, ctx) {}
   }
-};
+});

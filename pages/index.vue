@@ -13,8 +13,9 @@ import Account3 from "~/components/Help/Account3";
 export default {
   components: {
     Heading,
-    Account3,Box
-  },
+    Account3,
+    Box
+  }
 };
 </script>
 
